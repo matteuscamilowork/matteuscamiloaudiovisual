@@ -179,9 +179,12 @@ window.addEventListener('scroll',()=>{
     // Depoimento video: load YouTube on click
     const depoVideo=document.querySelector('.depo-video-side .depo-box');
     if(depoVideo){
-        depoVideo.addEventListener('click',function(){
+        depoVideo.setAttribute('tabindex','0');
+        depoVideo.setAttribute('role','button');
+        function loadDepo(){
             const iframe=document.createElement('iframe');
             iframe.src='https://www.youtube.com/embed/D6wCma7aAn0?autoplay=1&mute=1&loop=1&playlist=D6wCma7aAn0&controls=0&showinfo=0&rel=0&modestbranding=1&iv_load_policy=3&fs=0&cc_load_policy=0&playsinline=1&color=white';
+            iframe.title='Video';
             iframe.allow='autoplay; encrypted-media';
             iframe.allowFullscreen=true;
             iframe.classList.add('loaded');
@@ -191,6 +194,10 @@ window.addEventListener('scroll',()=>{
             if(btn)btn.remove();
             this.appendChild(iframe);
             this.style.cursor='default';
+        }
+        depoVideo.addEventListener('click',loadDepo,{once:true});
+        depoVideo.addEventListener('keydown',function(e){
+            if(e.key==='Enter'||e.key===' '){e.preventDefault();loadDepo.call(this)}
         },{once:true});
     }
 })();
@@ -206,26 +213,38 @@ window.addEventListener('scroll',()=>{
     let lastFocused=null;
 
     document.querySelectorAll('.yt-card').forEach(card=>{
-        card.addEventListener('click',()=>{
+        card.setAttribute('tabindex','0');
+        card.setAttribute('role','button');
+        function openCard(){
             const embed=card.querySelector('.yt-embed');
             const info=card.querySelector('.yt-card-info');
             const vid=embed?embed.getAttribute('data-video-id'):null;
             if(!vid)return;
             lastFocused=document.activeElement;
-            embedContainer.innerHTML='<iframe src="https://www.youtube.com/embed/'+vid+'?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&controls=1" style="border:none" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            let vTitle='Video';
             if(info){
                 const client=info.querySelector('.yt-client');
                 const title=info.querySelector('h4');
+                vTitle=title?title.textContent:client?client.textContent:'Video';
                 infoContainer.innerHTML='<span class="yt-client">'+(client?client.textContent:'')+'</span>'+(title?'<h4>'+title.textContent+'</h4>':'');
             }
+            embedContainer.innerHTML='<iframe src="https://www.youtube.com/embed/'+vid+'?autoplay=1&rel=0&modestbranding=1&iv_load_policy=3&controls=1" title="'+vTitle.replace(/"/g,'&quot;')+'" style="border:none" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
             modal.classList.add('active');
+            modal.setAttribute('role','dialog');
+            modal.setAttribute('aria-modal','true');
             document.body.style.overflow='hidden';
             closeBtn.focus();
+        }
+        card.addEventListener('click',openCard);
+        card.addEventListener('keydown',e=>{
+            if(e.key==='Enter'||e.key===' '){e.preventDefault();openCard()}
         });
     });
 
     function closeModal(){
         modal.classList.remove('active');
+        modal.removeAttribute('role');
+        modal.removeAttribute('aria-modal');
         document.body.style.overflow='';
         embedContainer.innerHTML='';
         infoContainer.innerHTML='';
@@ -462,12 +481,18 @@ function setupReveal(){
     if(!modal||!modalImg)return;
     let lastFocused=null;
     document.querySelectorAll('.depo-slide').forEach(slide=>{
-        slide.addEventListener('click',()=>{
+        slide.setAttribute('tabindex','0');
+        slide.setAttribute('role','button');
+        const open=()=>{
             const src=slide.src;
-            if(src){lastFocused=document.activeElement;modalImg.src=src;modal.classList.add('active');document.body.style.overflow='hidden';modalClose.focus()}
+            if(src){lastFocused=document.activeElement;modalImg.src=src;modal.classList.add('active');modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');document.body.style.overflow='hidden';modalClose.focus()}
+        };
+        slide.addEventListener('click',open);
+        slide.addEventListener('keydown',e=>{
+            if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}
         });
     });
-    function closeModal(){modal.classList.remove('active');document.body.style.overflow='';modalImg.src='';if(lastFocused)lastFocused.focus()}
+    function closeModal(){modal.classList.remove('active');modal.removeAttribute('role');modal.removeAttribute('aria-modal');document.body.style.overflow='';modalImg.src='';if(lastFocused)lastFocused.focus()}
     modalClose.addEventListener('click',closeModal);
     modalOverlay.addEventListener('click',closeModal);
     modal.addEventListener('keydown',e=>{
@@ -788,17 +813,20 @@ document.addEventListener('DOMContentLoaded',()=>{
     const hamburger=document.getElementById('hamburger');
     const mobileOverlay=document.getElementById('mobileOverlay');
     if(hamburger&&mobileOverlay){
+        function setMenu(open){
+            mobileOverlay.classList.toggle('active',open);
+            hamburger.classList.toggle('active',open);
+            hamburger.setAttribute('aria-expanded',String(open));
+            document.body.style.overflow=open?'hidden':'';
+        }
         hamburger.addEventListener('click',()=>{
-            const isOpen=mobileOverlay.classList.toggle('active');
-            hamburger.classList.toggle('active');
-            document.body.style.overflow=isOpen?'hidden':'';
+            setMenu(!mobileOverlay.classList.contains('active'));
         });
         mobileOverlay.querySelectorAll('a').forEach(link=>{
-            link.addEventListener('click',()=>{
-                mobileOverlay.classList.remove('active');
-                hamburger.classList.remove('active');
-                document.body.style.overflow='';
-            });
+            link.addEventListener('click',()=>{setMenu(false)});
+        });
+        document.addEventListener('keydown',e=>{
+            if(e.key==='Escape'&&mobileOverlay.classList.contains('active'))setMenu(false);
         });
     }
 });

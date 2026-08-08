@@ -1,4 +1,4 @@
-/* Matteus Camilo — Internationalization loader (PT / EN) */
+/* Matteus Camilo — Internationalization loader (PT / EN / ES) */
 (function(){
     "use strict";
 
@@ -7,9 +7,10 @@
     function detect(){
         var s = null;
         try{ s = localStorage.getItem(STORE); }catch(e){}
-        if(s === "pt" || s === "en") return s;
+        if(s === "pt" || s === "en" || s === "es") return s;
         var nav = "";
         try{ nav = (navigator.language || (navigator.languages && navigator.languages[0]) || "").toLowerCase(); }catch(e){}
+        if(nav.indexOf("es") === 0) return "es";
         return nav.indexOf("en") === 0 ? "en" : "pt";
     }
 
@@ -56,7 +57,9 @@
         setMeta("property", "og:description", m.ogDesc);
         setMeta("name", "twitter:title", m.twTitle);
         setMeta("name", "twitter:description", m.twDesc);
-        document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : "en");
+        document.documentElement.setAttribute("lang", lang === "pt" ? "pt-BR" : lang === "es" ? "es" : "en");
+        var locale = lang === "pt" ? "pt_BR" : lang === "es" ? "es_ES" : "en_US";
+        setMeta("property", "og:locale", locale);
     }
 
     function applyTranslations(){
@@ -78,9 +81,10 @@
         var map = window.TEXT_MAP || {};
         document.querySelectorAll(".yt-card h4, .portfolio-tags span, .service-tags span").forEach(function(el){
             var txt = (el.textContent || "").trim();
-            for(var ptKey in map){
-                if(map[ptKey] && map[ptKey].pt === txt){
-                    el.textContent = map[ptKey][lang];
+            for(var k in map){
+                var m = map[k];
+                if(m && (m.pt === txt || m.en === txt || m.es === txt)){
+                    el.textContent = m[lang] || m.pt;
                     return;
                 }
             }
@@ -90,7 +94,7 @@
             var cur = el.getAttribute(attr);
             if(!cur) return;
             for(var k in map){
-                if(map[k] && (map[k].pt === cur || map[k].en === cur)){
+                if(map[k] && (map[k].pt === cur || map[k].en === cur || map[k].es === cur)){
                     el.setAttribute(attr, map[k][lang]);
                     return;
                 }
@@ -113,6 +117,8 @@
         });
     }
 
+    var heroAnimated = false;
+
     function wrapHero(){
         var desc = document.getElementById("heroDesc");
         if(!desc) return;
@@ -133,6 +139,11 @@
         desc.innerHTML = wrapped;
         desc.style.opacity = "1";
         var words = desc.querySelectorAll(".word");
+        if(heroAnimated){
+            words.forEach(function(w){ w.classList.add("visible"); });
+            return;
+        }
+        heroAnimated = true;
         words.forEach(function(w, i){
             setTimeout(function(){ w.classList.add("visible"); }, 150 + i * 45);
         });
@@ -156,7 +167,7 @@
     }
 
     function setLang(l, persist){
-        if(l !== "pt" && l !== "en") return;
+        if(l !== "pt" && l !== "en" && l !== "es") return;
         lang = l;
         if(persist){
             try{ localStorage.setItem(STORE, l); }catch(e){}

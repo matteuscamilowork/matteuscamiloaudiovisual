@@ -24,6 +24,15 @@
     <link rel="apple-touch-icon" href="Topo-fundo-OFC.png">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="styles.css">
+    <noscript>
+        <style>
+            .loader{display:none!important}
+            body{overflow:auto!important}
+            .reveal,.reveal-left,.reveal-right,.reveal-scale{opacity:1!important;transform:none!important}
+            .sites-hero-video{opacity:.4!important}
+            .hero-desc .word,.section-head .tag,.section-head .section-title,.section-head .section-sub,.deliver-card,.tilt-card,.yt-carousel,.yt-carousel-head{opacity:1!important;transform:none!important}
+        </style>
+    </noscript>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://flagcdn.com">
@@ -38,12 +47,6 @@
         "url": "https://matteuscamilo.com.br/sites.html",
         "telephone": "+5521964560620",
         "priceRange": "$$",
-        "aggregateRating": {
-            "@type": "AggregateRating",
-            "ratingValue": "5.0",
-            "reviewCount": "500",
-            "bestRating": "5.0"
-        },
         "hasOfferCatalog": {
             "@type": "OfferCatalog",
             "name": "Servicos de Criacao de Sites",
@@ -53,7 +56,7 @@
                 {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "CRM e Sistemas"}}
             ]
         },
-        "areaServed": ["BR", "PT", "ES", "US", "CA", "EU"]
+        "areaServed": ["BR", "PT", "ES", "US", "CA"]
     }
     </script>
     <style>
@@ -361,7 +364,7 @@
 <body>
 
     <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
-    <a href="#hero" class="skip-link">Pular para o conteudo</a>
+    <a href="#hero" class="skip-link" data-i18n="sites.skip">Pular para o conteudo</a>
 
     <!-- SVG Symbols -->
     <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
@@ -387,12 +390,13 @@
                     Solicitar Orcamento
                 </a>
             </div>
-            <div class="lang-switch" role="group" aria-label="Idioma">
+            <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-attr="aria-label|a11y.lang">
                 <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
                 <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+                <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
             </div>
-            <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
-            <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" aria-pressed="false">
+            <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false" data-i18n-attr="aria-label|a11y.menu"><span></span><span></span><span></span></button>
+            <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" aria-pressed="false" data-i18n-attr="aria-label|a11y.theme">
                 <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
                 <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
             </button>
@@ -410,9 +414,10 @@
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
                 Solicitar Orcamento
             </a>
-            <div class="lang-switch" role="group" aria-label="Idioma">
+            <div class="lang-switch" role="group" aria-label="Idioma" data-i18n-attr="aria-label|a11y.lang">
                 <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
                 <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+                <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
             </div>
         </div>
     </div>
@@ -423,7 +428,7 @@
             <video class="sites-hero-video" autoplay muted loop playsinline preload="auto" poster="Topo-fundo-OFC.png">
                 <source src="hero-bg.mp4" type="video/mp4">
             </video>
-            <img src="Topo-fundo-OFC.png" alt="" width="1920" height="1080" fetchpriority="high" decoding="async" class="sites-hero-fallback">
+            <img src="Topo-fundo-OFC.png" alt="" width="2508" height="923" fetchpriority="high" decoding="async" class="sites-hero-fallback">
             <div class="sites-hero-overlay"></div>
             <div class="sites-light-leak"></div>
             <div class="sites-light-leak sites-light-leak-2"></div>
@@ -527,7 +532,7 @@
                     <div class="sites-stat-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.27 5.82 22 7 14.14l-5-4.87 6.91-1.01z"/></svg>
                     </div>
-                    <div class="sites-stat-num" data-slot-target="4.98" data-slot-suffix="%" data-slot-decimals="2">0</div>
+                    <div class="sites-stat-num" data-slot-target="98" data-slot-suffix="%">0</div>
                     <div class="sites-stat-label" data-i18n="sites.stats2">Clientes Satisfeitos</div>
                 </div>
                 <div class="sites-stat-divider"></div>
@@ -535,7 +540,7 @@
                     <div class="sites-stat-icon">
                         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
                     </div>
-                    <div class="sites-stat-num" data-slot-target="7">0</div>
+                    <div class="sites-stat-num" data-slot-target="5">0</div>
                     <div class="sites-stat-label" data-i18n="sites.stats3">Dias Úteis de Entrega</div>
                 </div>
                 <div class="sites-stat-divider"></div>
@@ -884,7 +889,7 @@
     <!-- CTA Final -->
     <section class="cta-final" id="cta">
         <div class="cta-final-bg">
-            <img src="Rodape.png" alt="" loading="lazy">
+            <img src="Rodape.png" alt="" loading="lazy" width="2560" height="500">
             <div class="cta-final-overlay"></div>
             <div class="sites-light-leak sites-cta-leak"></div>
             <div class="sites-light-leak sites-cta-leak-2"></div>
@@ -895,9 +900,9 @@
             <h2><span data-i18n="sites.cta.title1">Bora Colocar</span> <span class="accent" data-i18n="sites.cta.title2">Seu Projeto</span> <span data-i18n="sites.cta.title3">No Ar</span></h2>
             <p data-i18n="sites.cta.desc">Me chama no WhatsApp e bora transformar sua ideia em um site que realmente converte. Sem enrolacao, com preco justo e entrega rapida.</p>
             <div class="cta-final-price" data-i18n="sites.cta.price">A partir de <strong>R$597</strong> com tudo incluso</div>
-            <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+cria%C3%A7%C3%A3o+de+sites.&type=phone_number&app_absent=0" class="btn-wa btn-lg btn-glow" target="_blank" rel="noopener noreferrer" data-i18n="sites.cta.btn">
+            <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+cria%C3%A7%C3%A3o+de+sites.&type=phone_number&app_absent=0" class="btn-wa btn-lg btn-glow" target="_blank" rel="noopener noreferrer">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                Chamar no WhatsApp
+                <span data-i18n="sites.cta.btn">Chamar no WhatsApp</span>
             </a>
         </div>
     </section>

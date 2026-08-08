@@ -8,20 +8,20 @@
     <meta property="og:title" content="Briefing - Matteus Camilo | Criacao de Sites">
     <meta property="og:description" content="Formulario de briefing para criacao de sites profissionais. Preencha e comece seu projeto.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://matteuscamiloaudiovisual.vercel.app/briefing.html">
-    <meta property="og:image" content="https://matteuscamiloaudiovisual.vercel.app/Topo-fundo-OFC.png">
+    <meta property="og:url" content="https://matteuscamilo.com.br/briefing.html">
+    <meta property="og:image" content="https://matteuscamilo.com.br/Topo-fundo-OFC.png">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Briefing - Matteus Camilo | Criacao de Sites">
     <meta name="twitter:description" content="Formulario de briefing para criacao de sites profissionais.">
-    <meta name="twitter:image" content="https://matteuscamiloaudiovisual.vercel.app/Topo-fundo-OFC.png">
+    <meta name="twitter:image" content="https://matteuscamilo.com.br/Topo-fundo-OFC.png">
     <script type="application/ld+json">
     {
         "@context":"https://schema.org",
         "@type":"WebPage",
         "name":"Briefing - Criacao de Sites Profissionais",
         "description":"Formulario de briefing para criacao de sites profissionais.",
-        "publisher":{"@type":"Organization","name":"Matteus Camilo","logo":{"@type":"ImageObject","url":"https://matteuscamiloaudiovisual.vercel.app/Topo-fundo-OFC.png"}},
-        "mainEntity":{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Como funciona o briefing?","acceptedAnswer":{"@type":"Answer","text":"Preencha o formulario com as informacoes do seu negocio. Apos o envio, voce recebera um prompt personalizado para criar seu site."}},{"@type":"Question","name":"Quanto tempo demora?","acceptedAnswer":{"@type":"Answer","text":"O preenchimento leva entre 5 e 10 minutos. O prazo de entrega do site varia de 3 a 30 dias dependingo da complexidade."}}]}
+        "publisher":{"@type":"Organization","name":"Matteus Camilo","logo":{"@type":"ImageObject","url":"https://matteuscamilo.com.br/Topo-fundo-OFC.png"}},
+        "mainEntity":{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Como funciona o briefing?","acceptedAnswer":{"@type":"Answer","text":"Preencha o formulario com as informacoes do seu negocio. Apos o envio, voce recebera um prompt personalizado para criar seu site."}},{"@type":"Question","name":"Quanto tempo demora?","acceptedAnswer":{"@type":"Answer","text":"O preenchimento leva entre 5 e 10 minutos. O prazo de entrega do site varia de 3 a 30 dias dependendo da complexidade."}}]}
     }
     </script>
     <script src="translations.js"></script>
@@ -623,6 +623,7 @@
         <div class="briefing-lang" role="group" aria-label="Idioma" data-i18n-attr="aria-label|brief.lang">
             <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
             <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+            <button type="button" class="lang-btn" data-lang="es" aria-pressed="false">ES</button>
         </div>
         <header class="briefing-header">
             <div class="briefing-badge">
@@ -645,7 +646,7 @@
         </div>
         <button type="button" class="briefing-toggle-all" id="toggleAllBtn" data-i18n="brief.toggleAll">&#9660; Expandir / Recolher tudo</button>
         <div class="briefing-autosave" id="autoSaveIndicator"><span class="briefing-autosave-dot"></span> <span data-i18n="brief.autosave">Rascunho salvo automaticamente</span></div>
-        <form class="briefing-form" id="briefingForm" action="https://formspree.io/f/xkgvbznr" method="POST" enctype="multipart/form-data">
+        <form class="briefing-form" id="briefingForm" action="https://formspree.io/f/xkgvbznr" method="POST" enctype="multipart/form-data" novalidate>
             <input type="text" name="_gotcha" style="display:none!important" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <!-- SECTION 1: DADOS -->
@@ -1149,6 +1150,7 @@ function toggleCheck(el){
     var isChecked=el.classList.contains('checked');
     el.querySelector('input').checked=isChecked;
     el.setAttribute('aria-checked',isChecked);
+    if(window.saveDraftRef)window.saveDraftRef();
     playSound('pop');
     updateCounters();
     updateProgress();
@@ -1164,7 +1166,8 @@ function togglePage(card){
     });
     input.value=selected.join(', ');
     var field=input.closest('.briefing-field');
-    if(field){field.classList.toggle('valid',selected.length>0);field.classList.toggle('invalid',false)}
+    if(field){field.classList.toggle('valid',selected.length>0);field.classList.toggle('invalid',selected.length===0)}
+    if(window.saveDraftRef)window.saveDraftRef();
     playSound('pop');
     updateCounters();
     updateProgress();
@@ -1186,6 +1189,7 @@ function selectObj(card){
     input.value=card.getAttribute('data-value');
     var field=input.closest('.briefing-field');
     if(field){field.classList.add('valid');field.classList.remove('invalid')}
+    if(window.saveDraftRef)window.saveDraftRef();
     playSound('pop');
     updateProgress();
 }
@@ -1203,6 +1207,7 @@ function selectStyle(card){
     input.value=card.getAttribute('data-value');
     var field=input.closest('.briefing-field');
     if(field){field.classList.add('valid');field.classList.remove('invalid')}
+    if(window.saveDraftRef)window.saveDraftRef();
     playSound('pop');updateProgress();
 }
 document.querySelectorAll('.briefing-style-card').forEach(function(card){
@@ -1219,6 +1224,7 @@ function selectBudget(card){
     input.value=card.getAttribute('data-value');
     var field=input.closest('.briefing-field');
     if(field){field.classList.add('valid');field.classList.remove('invalid')}
+    if(window.saveDraftRef)window.saveDraftRef();
     playSound('pop');updateProgress();
 }
 document.querySelectorAll('.briefing-budget-card').forEach(function(card){
@@ -1448,20 +1454,23 @@ document.addEventListener('DOMContentLoaded',function(){
     };
 
     /* â”€â”€ VALIDATION â”€â”€ */
+    var submitting=false;
     function validateField(field,silent){
         var type=field.dataset.validate;
         if(!type)return true;
         var input=field.querySelector('input,textarea,select');
         if(!input)return true;
         var val=input.value.trim();
+        var empty=val.length===0;
         var valid=true;
-        if(type==='required')valid=val.length>0;
+        if(type==='required')valid=!empty;
         else if(type==='email')valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
         else if(type==='phone')valid=val.replace(/\D/g,'').length>=10;
         else if(type==='min10')valid=val.length>=10;
-        field.classList.toggle('valid',valid&&val.length>0);
-        field.classList.toggle('invalid',!valid&&val.length>0);
-        if(!valid&&val.length>0&&!silent)playSound('buzz');
+        var showInvalid=!valid&&(!empty||submitting);
+        field.classList.toggle('valid',valid&&!empty);
+        field.classList.toggle('invalid',showInvalid);
+        if(showInvalid&&!silent)playSound('buzz');
         return valid;
     }
     form.querySelectorAll('[data-validate]').forEach(function(field){
@@ -1517,14 +1526,17 @@ document.addEventListener('DOMContentLoaded',function(){
         });
     }
     window.updateProgress=updateProgress;
+    window.saveDraftRef=function(){formInteracted=true;saveDraft()};
 
     /* â”€â”€ FORM SUBMIT â”€â”€ */
     form.addEventListener('submit',function(e){
         e.preventDefault();
+        submitting=true;
         var allValid=true;
         form.querySelectorAll('[data-validate]').forEach(function(f){
             if(!validateField(f))allValid=false;
         });
+        submitting=false;
         if(!allValid){
             var first=form.querySelector('.briefing-field.invalid');
             if(first)first.scrollIntoView({behavior:'smooth',block:'center'});
@@ -1583,7 +1595,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var fd=new FormData(form);
         uploadedFiles.forEach(function(f){fd.append('arquivos',f)});
         fetch(form.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
-        .then(function(r){if(r.ok){localStorage.removeItem('briefing-draft');showSuccess();generatePrompt();launchConfetti();playSound('chime')}else{throw new Error()}})
+        .then(function(r){if(r.ok){localStorage.removeItem('briefing-draft');showSuccess();generatePrompt();launchConfetti();playSound('chime');formInteracted=false;form.reset();uploadedFiles=[];document.getElementById('fileList').innerHTML=''}else{throw new Error()}})
         .catch(function(){submitBtn.disabled=false;submitBtn.classList.remove('briefing-submit-loading');submitBtn.innerHTML=tr('brief.submit');alert(tr('brief.submitError'))});
     });
     function showSuccess(){
