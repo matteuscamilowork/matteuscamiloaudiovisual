@@ -1,3 +1,6 @@
+// I18N HELPER (loaded before this file via i18n.js)
+const T=(k,v)=>window.t?window.t(k,v):'';
+
 // LOADER
 const loaderStart=Date.now();
 const loaderEl=document.getElementById('loader');
@@ -161,7 +164,7 @@ window.addEventListener('scroll',()=>{
         const cardEl=embed.closest('.yt-card');
         const cName=cardEl?cardEl.querySelector('.yt-client')?.textContent:'';
         const pType=cardEl?cardEl.querySelector('h4')?.textContent:'';
-        thumb.alt=cName&&pType?'Projeto de '+pType+' para '+cName+' - Edição de vídeo Matteus Camilo':'Projeto de edição de vídeo - Portfólio Matteus Camilo';
+        thumb.alt=cName&&pType?T('a11y.thumbAlt',{type:pType,client:cName}):T('a11y.thumbAltDefault');
         embed.insertBefore(thumb,embed.firstChild);
         const skel=document.createElement('div');
         skel.className='yt-skeleton';
@@ -277,7 +280,7 @@ document.querySelectorAll('.yt-carousel').forEach(carousel=>{
         for(let i=0;i<dotCount;i++){
             const dot=document.createElement('button');
             dot.className='yt-dot'+(i===idx?' active':'');
-            dot.setAttribute('aria-label','Ir para posição '+(i+1)+' de '+dotCount);
+            dot.setAttribute('aria-label',T('a11y.goTo',{n:i+1,total:dotCount}));
             dot.addEventListener('click',()=>{idx=Math.min(i,getMaxIdx());update()});
             dotsWrap.appendChild(dot);
         }
@@ -300,7 +303,7 @@ document.querySelectorAll('.yt-carousel').forEach(carousel=>{
     // Keyboard navigation
     wrap.setAttribute('tabindex','0');
     wrap.setAttribute('role','region');
-    wrap.setAttribute('aria-label','Carrossel de vídeos - '+totalCards+' itens');
+    wrap.setAttribute('aria-label',T('a11y.carousel',{total:totalCards}));
     wrap.addEventListener('keydown',e=>{
         if(e.key==='ArrowRight'){e.preventDefault();if(idx<getMaxIdx()){idx++;update()}}
         if(e.key==='ArrowLeft'){e.preventDefault();if(idx>0){idx--;update()}}
@@ -374,7 +377,7 @@ document.querySelectorAll('.yt-carousel').forEach(carousel=>{
     slides.forEach((_,i)=>{
         const dot=document.createElement('button');
         dot.className='depo-dot'+(i===0?' active':'');
-        dot.setAttribute('aria-label',`Depoimento ${i+1}`);
+        dot.setAttribute('aria-label',T('a11y.depo',{n:i+1}));
         dot.addEventListener('click',()=>{current=i;goTo(current);resetTimer()});
         dotsContainer.appendChild(dot);
     });

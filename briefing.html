@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -24,6 +24,8 @@
         "mainEntity":{"@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Como funciona o briefing?","acceptedAnswer":{"@type":"Answer","text":"Preencha o formulario com as informacoes do seu negocio. Apos o envio, voce recebera um prompt personalizado para criar seu site."}},{"@type":"Question","name":"Quanto tempo demora?","acceptedAnswer":{"@type":"Answer","text":"O preenchimento leva entre 5 e 10 minutos. O prazo de entrega do site varia de 3 a 30 dias dependingo da complexidade."}}]}
     }
     </script>
+    <script src="translations.js"></script>
+    <script src="i18n.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -83,6 +85,11 @@
         .briefing-progress-marker.passed{background:var(--accent);border-color:rgba(242,29,100,.4);opacity:.6}
 
         .briefing-container{max-width:720px;margin:0 auto;padding:2rem 1.5rem 4rem;position:relative;z-index:2}
+
+        .briefing-lang{position:absolute;top:1.4rem;right:1.5rem;z-index:5;display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(242,29,100,.25);border-radius:999px;padding:3px;backdrop-filter:blur(8px)}
+        .briefing-lang .lang-btn{background:transparent;border:0;color:rgba(255,255,255,.6);font-size:.62rem;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:999px;cursor:pointer;transition:all .3s var(--ease)}
+        .briefing-lang .lang-btn:hover{color:#fff}
+        .briefing-lang .lang-btn.active{background:var(--accent);color:#fff;box-shadow:0 0 12px rgba(242,29,100,.4)}
 
         /* â”€â”€ HUD CORNERS â”€â”€ */
         .briefing-hud-corners{position:relative}
@@ -254,7 +261,159 @@
         .briefing-obj-card.pop{animation:objCardPop .3s var(--ease)}
         @media(max-width:600px){.briefing-obj-cards{grid-template-columns:repeat(2,1fr);gap:.5rem}.briefing-obj-card{padding:.8rem .5rem}.briefing-obj-desc{display:none!important}}
 
-        /* â”€â”€ UPLOAD â”€â”€ */
+                /* STYLE CARDS */
+        .briefing-style-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.6rem;margin-top:.5rem}
+        .briefing-style-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:.4rem;padding:.9rem .5rem;border-radius:12px;border:1.5px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:all .35s var(--ease);text-align:center;overflow:hidden;user-select:none}
+        .briefing-style-card::after{content:"";position:absolute;inset:0;border-radius:11px;opacity:0;transition:opacity .3s;background:radial-gradient(circle at 50% 30%,rgba(242,29,100,.06),transparent 70%)}
+        .briefing-style-card:hover{border-color:rgba(242,29,100,.2);box-shadow:0 4px 16px rgba(242,29,100,.06);transform:translateY(-2px)}
+        .briefing-style-card:hover::after{opacity:1}
+        .briefing-style-card.selected{border-color:var(--accent);background:rgba(242,29,100,.04);box-shadow:0 4px 20px rgba(242,29,100,.1);transform:translateY(-2px)}
+        .briefing-style-card.selected::after{opacity:1}
+        .briefing-style-card.selected::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff6b9d)}
+        .briefing-style-card.selected .briefing-style-preview span{opacity:1}
+        .briefing-style-card.selected .briefing-style-title{color:var(--accent)}
+        .briefing-style-preview{display:flex;gap:3px;align-items:flex-end;height:28px;margin-bottom:.2rem;position:relative;z-index:1}
+        .briefing-style-preview span{border-radius:3px;transition:all .35s var(--ease);opacity:.35}
+        .briefing-style-card:hover .briefing-style-preview span{opacity:.6}
+        .briefing-style-title{font-size:.7rem;font-weight:600;color:var(--g1);line-height:1.3;transition:color .3s;position:relative;z-index:1}
+        .briefing-style-desc{font-size:.55rem;color:var(--g2);line-height:1.3;position:relative;z-index:1;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease)}
+        .briefing-style-card.selected .briefing-style-desc{max-height:50px;opacity:1;margin-top:.1rem}
+        .briefing-style-check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .3s var(--ease);z-index:2}
+        .briefing-style-card.selected .briefing-style-check{opacity:1;transform:scale(1)}
+        .briefing-style-check svg{width:9px;height:9px}
+
+        /* BUDGET CARDS */
+        .briefing-budget-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem;margin-top:.5rem}
+        .briefing-budget-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.8rem .5rem;border-radius:12px;border:1.5px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:all .35s var(--ease);text-align:center;overflow:hidden;user-select:none}
+        .briefing-budget-card::after{content:"";position:absolute;inset:0;border-radius:11px;opacity:0;transition:opacity .3s;background:radial-gradient(circle at 50% 30%,rgba(242,29,100,.06),transparent 70%)}
+        .briefing-budget-card:hover{border-color:rgba(242,29,100,.2);box-shadow:0 4px 16px rgba(242,29,100,.06);transform:translateY(-2px)}
+        .briefing-budget-card:hover::after{opacity:1}
+        .briefing-budget-card.selected{border-color:var(--accent);background:rgba(242,29,100,.04);box-shadow:0 4px 20px rgba(242,29,100,.1);transform:translateY(-2px)}
+        .briefing-budget-card.selected::after{opacity:1}
+        .briefing-budget-card.selected::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff6b9d)}
+        .briefing-budget-card.selected .briefing-budget-price{color:var(--accent)}
+        .briefing-budget-card.selected .briefing-budget-icon{background:var(--accent);color:#fff;box-shadow:0 0 14px rgba(242,29,100,.3)}
+        .briefing-budget-icon{width:34px;height:34px;border-radius:10px;background:var(--accent-soft);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:all .35s var(--ease);flex-shrink:0}
+        .briefing-budget-icon svg{width:16px;height:16px}
+        .briefing-budget-price{font-size:.78rem;font-weight:700;color:var(--g1);transition:color .3s;position:relative;z-index:1}
+        .briefing-budget-scope{font-size:.55rem;color:var(--g2);line-height:1.3;position:relative;z-index:1;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease)}
+        .briefing-budget-card.selected .briefing-budget-scope{max-height:40px;opacity:1;margin-top:.1rem}
+        .briefing-budget-bar{width:100%;height:3px;border-radius:2px;background:rgba(0,0,0,.04);overflow:hidden;position:relative;z-index:1}
+        .briefing-budget-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--accent),#ff6b9d);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+        .briefing-budget-card.selected .briefing-budget-bar-fill{transform:scaleX(1)}
+        .briefing-budget-check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .3s var(--ease);z-index:2}
+        .briefing-budget-card.selected .briefing-budget-check{opacity:1;transform:scale(1)}
+        .briefing-budget-check svg{width:9px;height:9px}
+
+        /* CALENDAR PREMIUM */
+        .briefing-calendar{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.5rem}
+        .briefing-calendar-day{border-radius:12px;border:1.5px solid rgba(0,0,0,.06);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.2rem;cursor:pointer;transition:all .35s var(--ease);padding:.8rem .4rem;position:relative;overflow:hidden;user-select:none}
+        .briefing-calendar-day::after{content:"";position:absolute;inset:0;border-radius:11px;opacity:0;transition:opacity .3s;background:radial-gradient(circle at 50% 30%,rgba(242,29,100,.06),transparent 70%)}
+        .briefing-calendar-day:hover{border-color:rgba(242,29,100,.25);box-shadow:0 4px 16px rgba(242,29,100,.06);transform:translateY(-2px)}
+        .briefing-calendar-day:hover::after{opacity:1}
+        .briefing-calendar-day.selected{border-color:var(--accent);background:rgba(242,29,100,.04);box-shadow:0 4px 20px rgba(242,29,100,.1);transform:translateY(-2px)}
+        .briefing-calendar-day.selected::after{opacity:1}
+        .briefing-calendar-day.selected::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff6b9d)}
+        .briefing-calendar-day .day-num{font-size:1.1rem;font-weight:700;color:var(--g1);line-height:1;transition:color .3s;position:relative;z-index:1}
+        .briefing-calendar-day.selected .day-num{color:var(--accent)}
+        .briefing-calendar-day .day-label{font-size:.5rem;text-transform:uppercase;letter-spacing:.5px;color:var(--g2);transition:color .3s;position:relative;z-index:1}
+        .briefing-calendar-day.selected .day-label{color:var(--accent)}
+        .briefing-calendar-day .day-desc{font-size:.5rem;color:var(--g2);line-height:1.2;position:relative;z-index:1;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease);text-align:center}
+        .briefing-calendar-day.selected .day-desc{max-height:40px;opacity:1;margin-top:.1rem}
+
+        /* COLOR PICKERS */
+        .briefing-color-group{display:flex;gap:1rem;align-items:flex-start}
+        .briefing-color-wrap{display:flex;flex-direction:column;align-items:center;gap:.4rem;flex:1}
+        .briefing-color-label{font-size:.62rem;font-weight:600;color:var(--g1);text-transform:uppercase;letter-spacing:.5px}
+        .briefing-color-preview{width:100%;height:48px;border-radius:10px;border:2px solid rgba(0,0,0,.08);overflow:hidden;cursor:pointer;transition:all .3s var(--ease);box-shadow:0 2px 6px rgba(0,0,0,.04);position:relative}
+        .briefing-color-preview:hover{border-color:rgba(242,29,100,.25);box-shadow:0 4px 12px rgba(242,29,100,.06);transform:translateY(-1px)}
+        .briefing-color-preview input[type='color']{position:absolute;inset:-4px;width:calc(100% + 8px);height:calc(100% + 8px);border:none;cursor:pointer;padding:0}
+        .briefing-color-hex{font-size:.6rem;color:var(--g2);font-family:monospace;text-transform:uppercase}
+
+        /* PAGE CARDS */
+        .briefing-page-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:.5rem}
+        .briefing-page-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:.35rem;padding:.85rem .45rem .7rem;border-radius:12px;border:1.5px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:all .35s var(--ease);text-align:center;overflow:hidden;user-select:none}
+        .briefing-page-card::after{content:"";position:absolute;inset:0;border-radius:11px;opacity:0;transition:opacity .3s;background:radial-gradient(circle at 50% 20%,rgba(242,29,100,.05),transparent 70%)}
+        .briefing-page-card:hover{border-color:rgba(242,29,100,.2);box-shadow:0 4px 16px rgba(242,29,100,.06);transform:translateY(-2px)}
+        .briefing-page-card:hover::after{opacity:1}
+        .briefing-page-card:hover .briefing-page-wireframe{border-color:rgba(242,29,100,.2)}
+        .briefing-page-card:hover .briefing-page-wire div{background:rgba(242,29,100,.12)}
+        .briefing-page-card.selected{border-color:var(--accent);background:rgba(242,29,100,.03);box-shadow:0 4px 20px rgba(242,29,100,.1);transform:translateY(-2px)}
+        .briefing-page-card.selected::after{opacity:1}
+        .briefing-page-card.selected::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff6b9d)}
+        .briefing-page-card.selected .briefing-page-title{color:var(--accent)}
+        .briefing-page-card.selected .briefing-page-icon{background:var(--accent);color:#fff;box-shadow:0 0 14px rgba(242,29,100,.25)}
+        .briefing-page-card.selected .briefing-page-wire div{background:rgba(242,29,100,.2)}
+        .briefing-page-card.selected .briefing-page-wire{border-color:rgba(242,29,100,.15)}
+        .briefing-page-check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .3s var(--ease);z-index:2}
+        .briefing-page-card.selected .briefing-page-check{opacity:1;transform:scale(1)}
+        .briefing-page-check svg{width:9px;height:9px}
+        .briefing-page-icon{width:32px;height:32px;border-radius:9px;background:var(--accent-soft);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:all .35s var(--ease);flex-shrink:0}
+        .briefing-page-icon svg{width:15px;height:15px}
+        .briefing-page-title{font-size:.68rem;font-weight:600;color:var(--g1);line-height:1.3;transition:color .3s;position:relative;z-index:1}
+        .briefing-page-wire{width:100%;max-width:56px;height:28px;border-radius:4px;border:1px solid rgba(0,0,0,.08);display:flex;flex-direction:column;gap:2px;padding:3px;transition:border-color .3s;position:relative;z-index:1}
+        .briefing-page-wire div{border-radius:1px;background:rgba(0,0,0,.06);transition:background .3s}
+        .briefing-page-wire div:first-child{height:8px;border-radius:2px}
+        .briefing-page-wire div:nth-child(2){height:5px;width:70%}
+        .briefing-page-wire div:nth-child(3){height:3px;width:50%}
+        .briefing-page-complexity{font-size:.45rem;color:var(--g2);text-transform:uppercase;letter-spacing:.3px;padding:1px 5px;border-radius:3px;background:rgba(0,0,0,.03);position:relative;z-index:1;line-height:1.4}
+        .briefing-page-complexity.simple{color:#00b894}
+        .briefing-page-complexity.medium{color:#f39c12}
+        .briefing-page-complexity.hard{color:#e17055}
+        .briefing-page-desc{font-size:.48rem;color:var(--g2);line-height:1.25;position:relative;z-index:1;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease);text-align:center}
+        .briefing-page-card.selected .briefing-page-desc{max-height:40px;opacity:1;margin-top:.05rem}
+
+        /* FUNCTION CARDS */
+        .briefing-func-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin-top:.5rem}
+        .briefing-func-card{position:relative;display:flex;flex-direction:column;align-items:center;gap:.3rem;padding:.75rem .4rem .6rem;border-radius:12px;border:1.5px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:all .35s var(--ease);text-align:center;overflow:hidden;user-select:none}
+        .briefing-func-card::after{content:"";position:absolute;inset:0;border-radius:11px;opacity:0;transition:opacity .3s;background:radial-gradient(circle at 50% 20%,rgba(242,29,100,.05),transparent 70%)}
+        .briefing-func-card:hover{border-color:rgba(242,29,100,.2);box-shadow:0 4px 16px rgba(242,29,100,.06);transform:translateY(-2px)}
+        .briefing-func-card:hover::after{opacity:1}
+        .briefing-func-card.selected{border-color:var(--accent);background:rgba(242,29,100,.03);box-shadow:0 4px 20px rgba(242,29,100,.1);transform:translateY(-2px)}
+        .briefing-func-card.selected::after{opacity:1}
+        .briefing-func-card.selected::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff6b9d)}
+        .briefing-func-card.selected .briefing-func-title{color:var(--accent)}
+        .briefing-func-card.selected .briefing-func-icon{background:var(--accent);color:#fff;box-shadow:0 0 14px rgba(242,29,100,.25)}
+        .briefing-func-check{position:absolute;top:6px;right:6px;width:16px;height:16px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;opacity:0;transform:scale(.5);transition:all .3s var(--ease);z-index:2}
+        .briefing-func-card.selected .briefing-func-check{opacity:1;transform:scale(1)}
+        .briefing-func-check svg{width:9px;height:9px}
+        .briefing-func-icon{width:30px;height:30px;border-radius:8px;background:var(--accent-soft);border:1px solid var(--accent-border);display:flex;align-items:center;justify-content:center;color:var(--accent);transition:all .35s var(--ease);flex-shrink:0}
+        .briefing-func-icon svg{width:14px;height:14px}
+        .briefing-func-title{font-size:.62rem;font-weight:600;color:var(--g1);line-height:1.25;transition:color .3s;position:relative;z-index:1}
+        .briefing-func-badge{font-size:.42rem;font-weight:600;padding:1px 5px;border-radius:3px;text-transform:uppercase;letter-spacing:.3px;position:relative;z-index:1}
+        .briefing-func-badge.free{background:rgba(0,184,148,.08);color:#00b894;border:1px solid rgba(0,184,148,.15)}
+        .briefing-func-badge.premium{background:rgba(242,29,100,.06);color:var(--accent);border:1px solid rgba(242,29,100,.12)}
+        .briefing-func-desc{font-size:.46rem;color:var(--g2);line-height:1.2;position:relative;z-index:1;max-height:0;opacity:0;overflow:hidden;transition:all .35s var(--ease);text-align:center}
+        .briefing-func-card.selected .briefing-func-desc{max-height:35px;opacity:1;margin-top:.05rem}
+
+        /* PACKAGE BUTTONS */
+        .briefing-packages{display:flex;gap:.5rem;margin-top:.6rem;flex-wrap:wrap}
+        .briefing-pkg{display:flex;align-items:center;gap:.4rem;padding:.55rem .8rem;border-radius:10px;border:1.5px solid rgba(0,0,0,.06);background:#fff;cursor:pointer;transition:all .3s var(--ease);user-select:none}
+        .briefing-pkg:hover{border-color:rgba(242,29,100,.25);box-shadow:0 2px 12px rgba(242,29,100,.06);transform:translateY(-1px)}
+        .briefing-pkg.active{border-color:var(--accent);background:rgba(242,29,100,.04);box-shadow:0 2px 16px rgba(242,29,100,.08)}
+        .briefing-pkg-icon{font-size:.9rem;line-height:1}
+        .briefing-pkg-text{display:flex;flex-direction:column;align-items:flex-start;gap:1px}
+        .briefing-pkg-name{font-size:.65rem;font-weight:600;color:var(--g1);transition:color .3s}
+        .briefing-pkg.active .briefing-pkg-name{color:var(--accent)}
+        .briefing-pkg-detail{font-size:.48rem;color:var(--g2);line-height:1.2}
+        .briefing-pkg-check{width:14px;height:14px;border-radius:50%;border:1.5px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;transition:all .3s var(--ease);flex-shrink:0}
+        .briefing-pkg.active .briefing-pkg-check{border-color:var(--accent);background:var(--accent);color:#fff}
+        .briefing-pkg-check svg{width:8px;height:8px;opacity:0;transition:opacity .2s}
+        .briefing-pkg.active .briefing-pkg-check svg{opacity:1}
+
+        /* COMPLEXITY BAR */
+        .briefing-complexity{margin-top:.7rem;display:flex;flex-direction:column;gap:.35rem}
+        .briefing-complexity-header{display:flex;justify-content:space-between;align-items:center}
+        .briefing-complexity-label{font-size:.6rem;font-weight:600;color:var(--g1);text-transform:uppercase;letter-spacing:.3px}
+        .briefing-complexity-level{font-size:.58rem;font-weight:600;padding:1px 6px;border-radius:4px;transition:all .3s var(--ease)}
+        .briefing-complexity-level.simple{background:rgba(0,184,148,.08);color:#00b894}
+        .briefing-complexity-level.medium{background:rgba(243,156,18,.08);color:#f39c12}
+        .briefing-complexity-level.hard{background:rgba(225,112,85,.08);color:#e17055}
+        .briefing-complexity-level.premium{background:rgba(242,29,100,.08);color:var(--accent)}
+        .briefing-complexity-track{width:100%;height:5px;border-radius:3px;background:rgba(0,0,0,.04);overflow:hidden}
+        .briefing-complexity-fill{height:100%;border-radius:3px;transition:width .6s var(--ease),background .6s var(--ease);width:0}
+
+/* â”€â”€ UPLOAD â”€â”€ */
         .briefing-upload{border:2px dashed rgba(0,0,0,.1);border-radius:12px;padding:1.5rem;text-align:center;cursor:pointer;transition:all .3s;position:relative;background:rgba(255,255,255,.5)}
         .briefing-upload:hover{border-color:rgba(242,29,100,.3);box-shadow:0 2px 15px rgba(242,29,100,.05)}
         .briefing-upload.dragover{border-color:var(--accent);transform:scale(1.01);box-shadow:0 0 25px rgba(242,29,100,.08)}
@@ -268,15 +427,7 @@
         .briefing-upload-file button{background:none;border:none;color:var(--g2);cursor:pointer;font-size:.8rem;padding:0 .1rem;transition:color .2s}
         .briefing-upload-file button:hover{color:var(--accent)}
 
-        /* â”€â”€ CALENDAR â”€â”€ */
-        .briefing-calendar{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.5rem}
-        .briefing-calendar-day{width:42px;height:42px;border-radius:10px;border:1px solid rgba(0,0,0,.08);background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .3s;font-size:.6rem;color:var(--g2);box-shadow:0 1px 2px rgba(0,0,0,.03)}
-        .briefing-calendar-day:hover{border-color:rgba(242,29,100,.25);box-shadow:0 2px 10px rgba(242,29,100,.05)}
-        .briefing-calendar-day.selected{border-color:var(--accent);background:rgba(242,29,100,.08);color:var(--accent);font-weight:600;box-shadow:0 2px 12px rgba(242,29,100,.1)}
-        .briefing-calendar-day .day-num{font-size:.9rem;font-weight:600;line-height:1}
-        .briefing-calendar-day .day-label{font-size:.5rem;text-transform:uppercase;letter-spacing:.5px}
-
-        /* â”€â”€ SUBMIT â”€â”€ */
+    /* â”€â”€ SUBMIT â”€â”€ */
         .briefing-submit{width:100%;padding:1.1rem 2rem;border:none;border-radius:14px;background:linear-gradient(135deg,var(--accent),#c2185b);color:#fff;font-family:'Inter',sans-serif;font-size:.95rem;font-weight:700;letter-spacing:.3px;cursor:pointer;transition:all .4s var(--ease);position:relative;overflow:hidden;margin-top:1rem;text-transform:uppercase;z-index:1;box-shadow:0 4px 20px rgba(242,29,100,.25)}
         .briefing-submit::before{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transform:skewX(-20deg);transition:left .6s var(--ease)}
         .briefing-submit:hover::before{left:120%}
@@ -441,14 +592,14 @@
     </style>
 </head>
 <body>
-    <div class="briefing-mesh"></div>
-    <div class="briefing-shapes">
+    <div class="briefing-mesh" aria-hidden="true"></div>
+    <div class="briefing-shapes" aria-hidden="true">
         <div class="briefing-shape briefing-shape-1"></div>
         <div class="briefing-shape briefing-shape-2"></div>
         <div class="briefing-shape briefing-shape-3"></div>
         <div class="briefing-shape briefing-shape-4"></div>
     </div>
-    <div class="briefing-bg">
+    <div class="briefing-bg" aria-hidden="true">
         <div class="briefing-grid"></div>
         <div class="briefing-checker"></div>
         <div class="briefing-circuit"></div>
@@ -457,8 +608,8 @@
         <div class="briefing-bg-orb briefing-bg-orb-2"></div>
         <div class="briefing-bg-orb briefing-bg-orb-3"></div>
     </div>
-    <div class="briefing-grain"></div>
-    <div class="briefing-particles" id="particlesBg"></div>
+    <div class="briefing-grain" aria-hidden="true"></div>
+    <div class="briefing-particles" id="particlesBg" aria-hidden="true"></div>
     <div class="briefing-progress-wrap" aria-live="polite">
         <div class="briefing-progress" id="progressBar" style="width:0%" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
         <div class="briefing-progress-markers">
@@ -469,77 +620,82 @@
         </div>
     </div>
     <div class="briefing-container">
+        <div class="briefing-lang" role="group" aria-label="Idioma" data-i18n-attr="aria-label|brief.lang">
+            <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
+            <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+        </div>
         <header class="briefing-header">
             <div class="briefing-badge">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-                BRIEFING
+                <span data-i18n="brief.badge">BRIEFING</span>
             </div>
             <h1 class="briefing-title" id="typewriterTitle"><span class="typewriter-cursor">|</span></h1>
-            <p class="briefing-sub">Preencha as informacoes abaixo com o maximo de detalhes possivel. Quanto mais eu souber, melhor fica o resultado.</p>
-            <div class="briefing-est-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Tempo estimado: ~5 min</div>
+            <p class="briefing-sub" data-i18n="brief.sub">Preencha as informacoes abaixo com o maximo de detalhes possivel. Quanto mais eu souber, melhor fica o resultado.</p>
+            <div class="briefing-est-time"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span data-i18n="brief.estTime">Tempo estimado: ~5 min</span></div>
         </header>
         <div class="briefing-header-sep"><div class="briefing-header-sep-line"></div><div class="briefing-header-sep-dot"></div><div class="briefing-header-sep-line"></div></div>
         <div class="briefing-steps" id="stepsBar">
-            <div class="briefing-step active" data-step="0" data-tip="Dados pessoais e contato"><span class="briefing-step-num">1</span> <span>Dados</span></div>
+            <div class="briefing-step active" data-step="0" data-tip="Dados pessoais e contato" data-i18n-attr="data-tip|brief.step1.tip"><span class="briefing-step-num">1</span> <span data-i18n="brief.step1.label">Dados</span></div>
             <div class="briefing-step-line"></div>
-            <div class="briefing-step" data-step="1" data-tip="Sobre seu negocio"><span class="briefing-step-num">2</span> <span>Negocio</span></div>
+            <div class="briefing-step" data-step="1" data-tip="Sobre seu negocio" data-i18n-attr="data-tip|brief.step2.tip"><span class="briefing-step-num">2</span> <span data-i18n="brief.step2.label">Negocio</span></div>
             <div class="briefing-step-line"></div>
-            <div class="briefing-step" data-step="2" data-tip="Paginas e funcionalidades"><span class="briefing-step-num">3</span> <span>Site</span></div>
+            <div class="briefing-step" data-step="2" data-tip="Paginas e funcionalidades" data-i18n-attr="data-tip|brief.step3.tip"><span class="briefing-step-num">3</span> <span data-i18n="brief.step3.label">Site</span></div>
             <div class="briefing-step-line"></div>
-            <div class="briefing-step" data-step="3" data-tip="Cores e estilo visual"><span class="briefing-step-num">4</span> <span>Visual</span></div>
+            <div class="briefing-step" data-step="3" data-tip="Cores e estilo visual" data-i18n-attr="data-tip|brief.step4.tip"><span class="briefing-step-num">4</span> <span data-i18n="brief.step4.label">Visual</span></div>
         </div>
-        <button type="button" class="briefing-toggle-all" id="toggleAllBtn">&#9660; Expandir / Recolher tudo</button>
-        <div class="briefing-autosave" id="autoSaveIndicator"><span class="briefing-autosave-dot"></span> Rascunho salvo automaticamente</div>
+        <button type="button" class="briefing-toggle-all" id="toggleAllBtn" data-i18n="brief.toggleAll">&#9660; Expandir / Recolher tudo</button>
+        <div class="briefing-autosave" id="autoSaveIndicator"><span class="briefing-autosave-dot"></span> <span data-i18n="brief.autosave">Rascunho salvo automaticamente</span></div>
         <form class="briefing-form" id="briefingForm" action="https://formspree.io/f/xkgvbznr" method="POST" enctype="multipart/form-data">
+            <input type="text" name="_gotcha" style="display:none!important" tabindex="-1" autocomplete="off" aria-hidden="true">
 
             <!-- SECTION 1: DADOS -->
             <div class="briefing-section briefing-hud-corners" style="--i:0">
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                    Seus Dados
+                    <span data-i18n="brief.s1.title">Seus Dados</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Preciso das suas informacoes pra gente se comunicar durante o projeto. Seus dados estao 100% seguros e so serao usados pra esse projeto.</p>
+                <p class="briefing-section-desc" data-i18n="brief.s1.desc">Preciso das suas informacoes pra gente se comunicar durante o projeto. Seus dados estao 100% seguros e so serao usados pra esse projeto.</p>
                 <div class="briefing-section-body">
                 <div class="briefing-row">
                     <div class="briefing-field" data-validate="required">
                         <div class="briefing-field-wrap">
                             <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
-                            <input class="briefing-input" type="text" name="nome" placeholder=" " required>
-                            <label class="briefing-label">Nome Completo * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Seu nome completo. Ex: "Joao Silva". Vou usar esse nome pra te chamar durante o projeto e no contrato.</span></span></label>
+                            <input class="briefing-input" type="text" name="nome" id="nome" placeholder=" " required>
+                            <label class="briefing-label" for="nome"><span data-i18n="brief.nome.label">Nome Completo *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.nome.tip">Seu nome completo. Ex: "Joao Silva". Vou usar esse nome pra te chamar durante o projeto e no contrato.</span></span></label>
                             <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                         </div>
-                        <span class="briefing-field-error">Preencha seu nome</span>
+                        <span class="briefing-field-error" data-i18n="brief.nome.err">Preencha seu nome</span>
                     </div>
                     <div class="briefing-field" data-validate="required">
                         <div class="briefing-field-wrap">
                             <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M9 21V9l6-4v16"/><path d="M9 13h6"/></svg></span>
-                            <input class="briefing-input" type="text" name="empresa" placeholder=" " required>
-                            <label class="briefing-label">Empresa * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Nome fantasia ou razao social. Ex: "Studio Visual" ou "Joao Silva ME". Se ainda nao tem empresa formal, coloque o nome que pretende usar.</span></span></label>
+                            <input class="briefing-input" type="text" name="empresa" id="empresa" placeholder=" " required>
+                            <label class="briefing-label" for="empresa"><span data-i18n="brief.empresa.label">Empresa *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.empresa.tip">Nome fantasia ou razao social. Ex: "Studio Visual" ou "Joao Silva ME". Se ainda nao tem empresa formal, coloque o nome que pretende usar.</span></span></label>
                             <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                         </div>
-                        <span class="briefing-field-error">Preencha o nome da empresa</span>
+                        <span class="briefing-field-error" data-i18n="brief.empresa.err">Preencha o nome da empresa</span>
                     </div>
                 </div>
                 <div class="briefing-row" style="margin-top:1rem">
                     <div class="briefing-field" data-validate="email">
                         <div class="briefing-field-wrap">
                             <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg></span>
-                            <input class="briefing-input" type="email" name="email" placeholder=" " required>
-                            <label class="briefing-label">Email * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Email onde vou enviar atualizacoes do projeto, propostas e o briefing final. Ex: "joao@email.com".</span></span></label>
+                            <input class="briefing-input" type="email" name="email" id="email" placeholder=" " required>
+                            <label class="briefing-label" for="email"><span data-i18n="brief.email.label">Email *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.email.tip">Email onde vou enviar atualizacoes do projeto, propostas e o briefing final. Ex: "joao@email.com".</span></span></label>
                             <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                         </div>
-                        <span class="briefing-field-error">Email invalido</span>
+                        <span class="briefing-field-error" data-i18n="brief.email.err">Email invalido</span>
                     </div>
                     <div class="briefing-field" data-validate="phone">
                         <div class="briefing-field-wrap">
                             <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-                            <input class="briefing-input" type="tel" name="telefone" placeholder=" " required>
-                            <label class="briefing-label">Telefone / WhatsApp * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip"> Numero com DDD. Ex: "(21) 99999-9999". Vou usar pra falar com voce rapidamente via WhatsApp se precisar tirar alguma duvida.</span></span></label>
+                            <input class="briefing-input" type="tel" name="telefone" id="telefone" placeholder=" " required>
+                            <label class="briefing-label" for="telefone"><span data-i18n="brief.telefone.label">Telefone / WhatsApp *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.telefone.tip"> Numero com DDD. Ex: "(21) 99999-9999". Vou usar pra falar com voce rapidamente via WhatsApp se precisar tirar alguma duvida.</span></span></label>
                             <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                         </div>
-                        <span class="briefing-field-error">Telefone invalido</span>
+                        <span class="briefing-field-error" data-i18n="brief.telefone.err">Telefone invalido</span>
                     </div>
                 </div>
                 </div>
@@ -552,93 +708,93 @@
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-                    Sobre o Negocio
+                    <span data-i18n="brief.s2.title">Sobre o Negocio</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Essa e a parte mais importante! Conte tudo sobre sua empresa: o que faz, quem atende, por que e diferente. Quanto mais detalhes, mais preciso fica o site.</p>
+                <p class="briefing-section-desc" data-i18n="brief.s2.desc">Essa e a parte mais importante! Conte tudo sobre sua empresa: o que faz, quem atende, por que e diferente. Quanto mais detalhes, mais preciso fica o site.</p>
                 <div class="briefing-section-body">
                 <div class="briefing-field" data-validate="required">
                     <div class="briefing-field-wrap">
                         <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-                        <input class="briefing-input" type="text" name="ramo" placeholder=" " required>
-                        <label class="briefing-label">Ramo de Atividade * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Em qual area sua empresa atua? Ex: "Salao de beleza", "Escritorio de advocacia", "Loja de roupas fitness", "Consultoria de marketing digital". Seja especifico.</span></span></label>
+                        <input class="briefing-input" type="text" name="ramo" id="ramo" placeholder=" " required>
+                        <label class="briefing-label" for="ramo"><span data-i18n="brief.ramo.label">Ramo de Atividade *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.ramo.tip">Em qual area sua empresa atua? Ex: "Salao de beleza", "Escritorio de advocacia", "Loja de roupas fitness", "Consultoria de marketing digital". Seja especifico.</span></span></label>
                         <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                     </div>
-                    <span class="briefing-field-error">Preencha o ramo</span>
+                    <span class="briefing-field-error" data-i18n="brief.ramo.err">Preencha o ramo</span>
                 </div>
                 <div class="briefing-field" data-validate="min10" style="margin-top:1rem">
                     <div class="briefing-field-wrap briefing-field-wrap-textarea">
-                        <textarea class="briefing-textarea" name="descricao" placeholder=" " required></textarea>
-                        <label class="briefing-label">Descricao do Negocio * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Essa e a parte mais importante de todo o briefing! Explique:<br><br><strong>1.</strong> O que sua empresa faz<br><strong>2.</strong> Como funciona (processo)<br><strong>3.</strong> Qual sua proposta de valor<br><strong>4.</strong> O que te diferencia dos concorrentes<br><strong>5.</strong> Quais servicos/produtos oferece<br><br>Quanto mais detalhes, melhor o resultado final do site.</span></span></label>
+                        <textarea class="briefing-textarea" name="descricao" id="descricao" placeholder=" " required></textarea>
+                        <label class="briefing-label" for="descricao"><span data-i18n="brief.descricao.label">Descricao do Negocio *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.descricao.tip">Essa e a parte mais importante de todo o briefing! Explique:<br><br><strong>1.</strong> O que sua empresa faz<br><strong>2.</strong> Como funciona (processo)<br><strong>3.</strong> Qual sua proposta de valor<br><strong>4.</strong> O que te diferencia dos concorrentes<br><strong>5.</strong> Quais servicos/produtos oferece<br><br>Quanto mais detalhes, melhor o resultado final do site.</span></span></label>
                         <span class="briefing-field-status"><svg class="field-check" viewBox="0 0 24 24" fill="none" stroke="#00e5a0" stroke-width="2.5"><path class="field-check-path" d="M4 12l6 6L20 6"/></svg><svg class="field-x" viewBox="0 0 24 24" fill="none" stroke="#ff4757" stroke-width="2.5"><line class="field-x-line" x1="6" y1="6" x2="18" y2="18"/><line class="field-x-line" x1="18" y1="6" x2="6" y2="18"/></svg></span>
                     </div>
-                    <div class="briefing-char-count" data-counter="descricao">0 caracteres (minimo 10)</div>
-                    <span class="briefing-field-error">Minimo de 10 caracteres - conte mais sobre seu negocio</span>
+                    <div class="briefing-char-count" data-counter="descricao" data-i18n-attr="data-brief-char|brief.charsMin">0 caracteres (minimo 10)</div>
+                    <span class="briefing-field-error" data-i18n="brief.descricao.err">Minimo de 10 caracteres - conte mais sobre seu negocio</span>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-field-wrap briefing-field-wrap-textarea">
                         <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
-                        <textarea class="briefing-textarea" name="publico" placeholder=" " style="min-height:70px"></textarea>
-                        <label class="briefing-label">Publico-Alvo <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Pra quem e seu site? Defina seu cliente ideal:<br><br><strong>Idade:</strong> 18-25 anos<br><strong>Genero:</strong> Feminino / Masculino / Todos<br><strong>Estilo:</strong> Jovem / Profissional / Familiar<br><strong>Interesses:</strong> Fitness, moda, tecnologia...<br><br>Ex: "Mulheres 25-40 anos, interessadas em bem-estar e estetica"</span></span></label>
+                        <textarea class="briefing-textarea" name="publico" id="publico" placeholder=" " style="min-height:70px"></textarea>
+                        <label class="briefing-label" for="publico"><span data-i18n="brief.publico.label">Publico-Alvo</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.publico.tip">Pra quem e seu site? Defina seu cliente ideal:<br><br><strong>Idade:</strong> 18-25 anos<br><strong>Genero:</strong> Feminino / Masculino / Todos<br><strong>Estilo:</strong> Jovem / Profissional / Familiar<br><strong>Interesses:</strong> Fitness, moda, tecnologia...<br><br>Ex: "Mulheres 25-40 anos, interessadas em bem-estar e estetica"</span></span></label>
                     </div>
-                    <div class="briefing-char-count" data-counter="publico">0 caracteres</div>
+                    <div class="briefing-char-count" data-counter="publico" data-i18n-attr="data-brief-char|brief.chars">0 caracteres</div>
                 </div>
                 <div class="briefing-field" data-validate="required" style="margin-top:1rem">
-                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Objetivo Principal do Site * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Qual e o objetivo #1 do site? Isso define a estrutura, layout e funcionalidades:<br><br><strong>Vender:</strong> Botao de compra, carrinho, checkout<br><strong>Gerar leads:</strong> Formulario de contato, WhatsApp<br><strong>Apresentar:</strong> Paginas informativas, galeria<br><strong>Agendar:</strong> Calendario, horarios disponiveis<br><strong>Portfolio:</strong> Galeria de trabalhos, antes/depois</span></span></label>
+                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.objetivo.label">Objetivo Principal do Site *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.objetivo.tip">Qual e o objetivo #1 do site? Isso define a estrutura, layout e funcionalidades:<br><br><strong>Vender:</strong> Botao de compra, carrinho, checkout<br><strong>Gerar leads:</strong> Formulario de contato, WhatsApp<br><strong>Apresentar:</strong> Paginas informativas, galeria<br><strong>Agendar:</strong> Calendario, horarios disponiveis<br><strong>Portfolio:</strong> Galeria de trabalhos, antes/depois</span></span></label>
                     <input type="hidden" name="objetivo" id="objetivoInput" required>
                     <div class="briefing-obj-cards" id="objCards">
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Vender produtos online" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Vender produtos online" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
-                            <span class="briefing-obj-title">Vender Online</span>
-                            <span class="briefing-obj-desc">Loja, carrinho, checkout e pagamentos</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj1.title">Vender Online</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj1.desc">Loja, carrinho, checkout e pagamentos</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Gerar leads via formulario/WhatsApp" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Gerar leads via formulario/WhatsApp" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-                            <span class="briefing-obj-title">Gerar Leads</span>
-                            <span class="briefing-obj-desc">Formulario de contato, WhatsApp, captacao</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj2.title">Gerar Leads</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj2.desc">Formulario de contato, WhatsApp, captacao</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Apresentar empresa e servicos" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Apresentar empresa e servicos" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg></span>
-                            <span class="briefing-obj-title">Apresentar Empresa</span>
-                            <span class="briefing-obj-desc">Paginas informativas, servicos, equipe</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj3.title">Apresentar Empresa</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj3.desc">Paginas informativas, servicos, equipe</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Agendamento de consultas/aulas" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Agendamento de consultas/aulas" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg></span>
-                            <span class="briefing-obj-title">Agendar</span>
-                            <span class="briefing-obj-desc">Calendario, horarios, consultas online</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj4.title">Agendar</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj4.desc">Calendario, horarios, consultas online</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Portfolio de trabalhos" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Portfolio de trabalhos" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></span>
-                            <span class="briefing-obj-title">Portfolio</span>
-                            <span class="briefing-obj-desc">Galeria de trabalhos, antes e depois</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj5.title">Portfolio</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj5.desc">Galeria de trabalhos, antes e depois</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Blog / Conteudo" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Blog / Conteudo" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
-                            <span class="briefing-obj-title">Blog / Conteudo</span>
-                            <span class="briefing-obj-desc">Artigos, posts, conteudo educativo</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj6.title">Blog / Conteudo</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj6.desc">Artigos, posts, conteudo educativo</span>
                         </div>
-                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Outro" tabindex="0" role="radio" aria-checked="false">
+                        <div class="briefing-obj-card" onclick="selectObj(this)" data-value="Outro" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
                             <span class="briefing-obj-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
                             <span class="briefing-obj-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg></span>
-                            <span class="briefing-obj-title">Outro</span>
-                            <span class="briefing-obj-desc">Descreva nas observacoes finais</span>
+                            <span class="briefing-obj-title" data-i18n="brief.obj7.title">Outro</span>
+                            <span class="briefing-obj-desc" data-i18n="brief.obj7.desc">Descreva nas observacoes finais</span>
                         </div>
                     </div>
-                    <span class="briefing-field-error" id="objError">Selecione um objetivo</span>
+                    <span class="briefing-field-error" id="objError" data-i18n="brief.obj.err">Selecione um objetivo</span>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-field-wrap briefing-field-wrap-textarea">
                         <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></span>
-                        <textarea class="briefing-textarea" name="concorrentes" placeholder=" " style="min-height:60px"></textarea>
-                        <label class="briefing-label">Concorrentes (links se tiver) <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Coloque links de sites que voce gosta ou que sao concorrentes diretos. Isso me ajuda a entender:<br><br><strong>1.</strong> O que ja existe no mercado<br><strong>2.</strong> O que voce quer igualar ou superar<br><strong>3.</strong> Referencia visual e de conteudo<br><br>Ex: "www.concorrente1.com.br, www.site-inspiracao.com.br"</span></span></label>
+                        <textarea class="briefing-textarea" name="concorrentes" id="concorrentes" placeholder=" " style="min-height:60px"></textarea>
+                        <label class="briefing-label" for="concorrentes"><span data-i18n="brief.concorrentes.label">Concorrentes (links se tiver)</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.concorrentes.tip">Coloque links de sites que voce gosta ou que sao concorrentes diretos. Isso me ajuda a entender:<br><br><strong>1.</strong> O que ja existe no mercado<br><strong>2.</strong> O que voce quer igualar ou superar<br><strong>3.</strong> Referencia visual e de conteudo<br><br>Ex: "www.concorrente1.com.br, www.site-inspiracao.com.br"</span></span></label>
                     </div>
-                    <div class="briefing-char-count" data-counter="concorrentes">0 caracteres</div>
+                    <div class="briefing-char-count" data-counter="concorrentes" data-i18n-attr="data-brief-char|brief.chars">0 caracteres</div>
                 </div>
                 </div>
                 </div>
@@ -650,50 +806,108 @@
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
-                    Estrutura do Site
+                    <span data-i18n="brief.s3.title">Estrutura do Site</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Selecione quais paginas e funcionalidades voce precisa. Nao se preocupe se nao tem certeza — podemos ajustar depois.</p>
+                <p class="briefing-section-desc" data-i18n="brief.s3.desc">Selecione quais paginas e funcionalidades voce precisa. Nao se preocupe se nao tem certeza — podemos ajustar depois.</p>
                 <div class="briefing-section-body">
-                <div class="briefing-field">
+                <div class="briefing-field" data-validate="required">
                     <div class="briefing-check-group-header">
-                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Paginas Desejadas * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Selecione todas as paginas que precisa. Cada pagina tem um papel:<br><br><strong>Home:</strong> Pagina principal (obrigatoria)<br><strong>Sobre:</strong> Historia da empresa, equipe<br><strong>Servicos:</strong> Lista de servicos/produtos<br><strong>Portfolio:</strong> Galeria de trabalhos feitos<br><strong>Blog:</strong> Artigos e conteudo<br><strong>Contato:</strong> Formulario, mapa, telefone<br><strong>Loja:</strong> Vendas online<br><strong>Landing Page:</strong> Pagina de conversao</span></span></label>
+                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.paginas.label">Paginas Desejadas *</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.paginas.tip">Selecione todas as paginas que precisa. Cada pagina tem um papel:<br><br><strong>Home:</strong> Pagina principal (obrigatoria)<br><strong>Sobre:</strong> Historia da empresa, equipe<br><strong>Servicos:</strong> Lista de servicos/produtos<br><strong>Portfolio:</strong> Galeria de trabalhos feitos<br><strong>Blog:</strong> Artigos e conteudo<br><strong>Contato:</strong> Formulario, mapa, telefone<br><strong>Loja:</strong> Vendas online<br><strong>Landing Page:</strong> Pagina de conversao</span></span></label>
                     <span class="briefing-check-counter" id="paginasCounter">0 / 8</span>
                     </div>
-                    <div class="briefing-checkboxes" id="paginasGroup">
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Home"><span class="briefing-check-dot"></span> Home</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Sobre"><span class="briefing-check-dot"></span> Sobre</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Servicos"><span class="briefing-check-dot"></span> Servicos</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Portfolio"><span class="briefing-check-dot"></span> Portfolio</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Blog"><span class="briefing-check-dot"></span> Blog</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Contato"><span class="briefing-check-dot"></span> Contato</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Loja"><span class="briefing-check-dot"></span> Loja</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="paginas" value="Landing Page"><span class="briefing-check-dot"></span> Landing Page</label>
+                    <input type="hidden" name="paginas" id="paginasInput" value="" required>
+                    <div class="briefing-page-cards" id="paginasGroup">
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Home" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page1.title">Home</span>
+                            <div class="briefing-page-wire"><div></div><div></div><div></div></div>
+                            <span class="briefing-page-complexity simple" data-i18n="brief.complex.simple">Basico</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page1.desc">Hero, servicos, depoimentos, CTA</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Sobre" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page2.title">Sobre</span>
+                            <div class="briefing-page-wire"><div></div><div style="width:50%"></div><div style="width:80%"></div></div>
+                            <span class="briefing-page-complexity simple" data-i18n="brief.complex.simple">Basico</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page2.desc">Historia, equipe, valores, missao</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Servicos" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page3.title">Servicos</span>
+                            <div class="briefing-page-wire"><div></div><div style="width:60%"></div><div style="width:40%"></div></div>
+                            <span class="briefing-page-complexity medium" data-i18n="brief.complex.medium">Medio</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page3.desc"> Lista de servicos, precos, detalhes</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Portfolio" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page4.title">Portfolio</span>
+                            <div class="briefing-page-wire"><div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;height:100%;padding:2px"><div style="height:100%;border-radius:1px"></div><div style="height:100%;border-radius:1px"></div><div style="height:100%;border-radius:1px"></div></div></div>
+                            <span class="briefing-page-complexity medium" data-i18n="brief.complex.medium">Medio</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page4.desc">Galeria de trabalhos, filtros, lightbox</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Blog" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page5.title">Blog</span>
+                            <div class="briefing-page-wire"><div style="width:70%"></div><div style="height:3px;width:40%"></div><div style="height:2px;width:60%"></div></div>
+                            <span class="briefing-page-complexity hard" data-i18n="brief.complex.hard">Avancado</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page5.desc">Artigos, categorias, busca, comentarios</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Contato" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page6.title">Contato</span>
+                            <div class="briefing-page-wire"><div style="width:50%"></div><div style="height:6px;width:100%;border-radius:2px"></div><div style="height:4px;width:35%;border-radius:2px"></div></div>
+                            <span class="briefing-page-complexity simple" data-i18n="brief.complex.simple">Basico</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page6.desc">Formulario, WhatsApp, mapa, telefone</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Loja" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page7.title">Loja</span>
+                            <div class="briefing-page-wire"><div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;height:100%;padding:2px"><div style="height:100%;border-radius:1px"></div><div style="height:100%;border-radius:1px"></div></div></div>
+                            <span class="briefing-page-complexity hard" data-i18n="brief.complex.hard">Avancado</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page7.desc">Produtos, carrinho, pagamento, estoque</span>
+                        </div>
+                        <div class="briefing-page-card" onclick="togglePage(this)" data-value="Landing Page" data-i18n-value="data-value" tabindex="0" role="checkbox" aria-checked="false">
+                            <span class="briefing-page-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <span class="briefing-page-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+                            <span class="briefing-page-title" data-i18n="brief.page8.title">Landing Page</span>
+                            <div class="briefing-page-wire"><div></div><div style="width:80%"></div><div style="width:30%;border-radius:10px"></div></div>
+                            <span class="briefing-page-complexity simple" data-i18n="brief.complex.simple">Basico</span>
+                            <span class="briefing-page-desc" data-i18n="brief.page8.desc">Pagina unica de conversao focada</span>
+                        </div>
                     </div>
+                    <span class="briefing-field-error" data-i18n="brief.paginas.err">Selecione pelo menos uma pagina</span>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-check-group-header">
-                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Funcionalidades Extras <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Recursos extras que podem ser adicionados ao site:<br><br><strong>WhatsApp:</strong> Botao flutuante no canto<br><strong>Formulario:</strong> Contato por email<br><strong>Agendamento:</strong> Cliente marca horario<br><strong>Maps:</strong> Localizacao da empresa<br><strong>Galeria:</strong> Fotos em grid<br><strong>SEO:</strong> Otimizado pro Google<br><strong>Analytics:</strong> Estatisticas de visitas<br><strong>CRM:</strong> Gerenciamento de clientes<br><strong>Area do Cliente:</strong> Login e areas restritas</span></span></label>
+                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.func.label">Funcionalidades Extras</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.func.tip">Recursos extras que podem ser adicionados ao site:<br><br><strong>WhatsApp:</strong> Botao flutuante no canto<br><strong>Formulario:</strong> Contato por email<br><strong>Agendamento:</strong> Cliente marca horario<br><strong>Maps:</strong> Localizacao da empresa<br><strong>Galeria:</strong> Fotos em grid<br><strong>SEO:</strong> Otimizado pro Google<br><strong>Analytics:</strong> Estatisticas de visitas<br><strong>CRM:</strong> Gerenciamento de clientes<br><strong>Area do Cliente:</strong> Login e areas restritas</span></span></label>
                     <span class="briefing-check-counter" id="funcCounter">0 / 9</span>
                     </div>
                     <div class="briefing-checkboxes" id="funcGroup">
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="WhatsApp"><span class="briefing-check-dot"></span> WhatsApp Flutuante</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Formulario"><span class="briefing-check-dot"></span> Formulario de Contato</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Agendamento"><span class="briefing-check-dot"></span> Agendamento</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Google Maps"><span class="briefing-check-dot"></span> Google Maps</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Galeria"><span class="briefing-check-dot"></span> Galeria de Fotos</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="SEO"><span class="briefing-check-dot"></span> SEO Basico</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Analytics"><span class="briefing-check-dot"></span> Google Analytics</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="CRM"><span class="briefing-check-dot"></span> CRM</label>
-                        <label class="briefing-check" onclick="toggleCheck(this)" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Area do Cliente"><span class="briefing-check-dot"></span> Area do Cliente</label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="WhatsApp" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func1">WhatsApp Flutuante</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Formulario" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func2">Formulario de Contato</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Agendamento" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func3">Agendamento</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Google Maps" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func4">Google Maps</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Galeria" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func5">Galeria de Fotos</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="SEO" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func6">SEO Basico</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Analytics" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func7">Google Analytics</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="CRM" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func8">CRM</span></label>
+                        <label class="briefing-check" tabindex="0" role="checkbox" aria-checked="false"><input type="checkbox" name="funcionalidades" value="Area do Cliente" data-i18n-value="value"><span class="briefing-check-dot"></span> <span data-i18n="brief.func9">Area do Cliente</span></label>
                     </div>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-field-wrap briefing-field-wrap-textarea">
-                        <textarea class="briefing-textarea" name="outras_info" placeholder=" " style="min-height:60px"></textarea>
-                        <label class="briefing-label">Outras Informacoes</label>
+                        <textarea class="briefing-textarea" name="outras_info" id="outras_info" placeholder=" " style="min-height:60px"></textarea>
+                        <label class="briefing-label" for="outras_info"><span data-i18n="brief.outras.label">Outras Informacoes</span></label>
                     </div>
-                    <div class="briefing-char-count" data-counter="outras_info">0 caracteres</div>
+                    <div class="briefing-char-count" data-counter="outras_info" data-i18n-attr="data-brief-char|brief.chars">0 caracteres</div>
                 </div>
                 </div>
                 </div>
@@ -705,50 +919,91 @@
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="15.5" r="2.5"/><circle cx="8.5" cy="15.5" r="2.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2"/></svg>
-                    Preferencias Visuais
+                    <span data-i18n="brief.s4.title">Preferencias Visuais</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Como voce imagina o visual do site? Cores, estilo e identidade. Se nao tem certeza, me conte o que gosta e eu sugiro algo.</p>
+                <p class="briefing-section-desc" data-i18n="brief.s4.desc">Como voce imagina o visual do site? Cores, estilo e identidade. Se nao tem certeza, me conte o que gosta e eu sugiro algo.</p>
                 <div class="briefing-section-body">
-                <div class="briefing-row">
-                    <div class="briefing-field">
-                        <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Cor Principal <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Cor que mais representa sua marca. Ser usada no titulo, botoes e destaques. Ex: Azul corporativo, verde natureza, rosa feminino.</span></span></label>
-                        <input class="briefing-input" type="color" name="cor_principal" value="#f21d64" style="height:42px;padding:.3rem">
+                <div class="briefing-row" style="margin-top:0">
+                    <div class="briefing-color-wrap">
+                        <label class="briefing-color-label" data-i18n="brief.cor1.label">Cor Principal</label>
+                        <div class="briefing-color-preview" style="background:#f21d64" id="colorPreview1">
+                            <input type="color" name="cor_principal" value="#f21d64" onchange="document.getElementById('colorPreview1').style.background=this.value;document.getElementById('colorHex1').textContent=this.value">
+                        </div>
+                        <span class="briefing-color-hex" id="colorHex1">#f21d64</span>
+                        <span style="font-size:.5rem;color:var(--g2);text-align:center;line-height:1.3" data-i18n="brief.cor1.hint">Cor que representa sua marca.<br>Botoes, titulos e destaques.</span>
                     </div>
-                    <div class="briefing-field">
-                        <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Cor Secundaria <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Cor de apoio. Geralmente mais neutra. Ser usada em textos, bordas e fundos. Ex: Cinza escuro, bege, branco, preto.</span></span></label>
-                        <input class="briefing-input" type="color" name="cor_secundaria" value="#000000" style="height:42px;padding:.3rem">
+                    <div class="briefing-color-wrap">
+                        <label class="briefing-color-label" data-i18n="brief.cor2.label">Cor Secundaria</label>
+                        <div class="briefing-color-preview" style="background:#000000" id="colorPreview2">
+                            <input type="color" name="cor_secundaria" value="#000000" onchange="document.getElementById('colorPreview2').style.background=this.value;document.getElementById('colorHex2').textContent=this.value">
+                        </div>
+                        <span class="briefing-color-hex" id="colorHex2">#000000</span>
+                        <span style="font-size:.5rem;color:var(--g2);text-align:center;line-height:1.3" data-i18n="brief.cor2.hint">Cor de apoio. Textos,<br>bordas e fundos neutros.</span>
                     </div>
                 </div>
                 <div class="briefing-field" data-validate="required" style="margin-top:1rem">
-                    <div class="briefing-field-wrap">
-                        <select class="briefing-select" name="estilo" required>
-                            <option value="" disabled selected>&nbsp;</option>
-                            <option value="Minimalista e Clean">Minimalista e Clean</option>
-                            <option value="Moderno e Bold">Moderno e Bold</option>
-                            <option value="Elegante e Sofisticado">Elegante e Sofisticado</option>
-                            <option value="Colorido e Divertido">Colorido e Divertido</option>
-                            <option value="Corporativo e Serio">Corporativo e Serio</option>
-                            <option value="Criativo e Artistico">Criativo e Artistico</option>
-                            <option value="Dark Mode / Neon">Dark Mode / Neon</option>
-                        </select>
-                        <label class="briefing-label">Estilo Visual * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Escolha o estilo que mais combina:<br><br><strong>Minimalista:</strong> Pouco conteudo, espaco branco<br><strong>Moderno/Bold:</strong> Tipografia grande, cores fortes<br><strong>Elegante:</strong> Fontes finas, dourado/preto<br><strong>Colorido:</strong> Varias cores, divertido<br><strong>Corporativo:</strong> Serio, azul/cinza<br><strong>Criativo:</strong> Layout diferente, artistico<br><strong>Dark/Neon:</strong> Fundo escuro, cores vibrantes</span></span></label>
+                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.estilo.label">Estilo Visual</span> * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.estilo.tip">Escolha o estilo que mais combina:<br><br><strong>Minimalista:</strong> Pouco conteudo, espaco branco<br><strong>Moderno/Bold:</strong> Tipografia grande, cores fortes<br><strong>Elegante:</strong> Fontes finas, dourado/preto<br><strong>Colorido:</strong> Varias cores, divertido<br><strong>Corporativo:</strong> Serio, azul/cinza<br><strong>Criativo:</strong> Layout diferente, artistico<br><strong>Dark/Neon:</strong> Fundo escuro, cores vibrantes</span></span></label>
+                    <input type="hidden" name="estilo" id="estiloInput" required>
+                    <div class="briefing-style-cards" id="styleCards">
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Minimalista e Clean" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:8px;height:18px;background:#e0e0e0"></span><span style="width:20px;height:12px;background:#bbb"></span><span style="width:8px;height:22px;background:#ddd"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style1.title">Minimalista</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style1.desc">Espaco branco, limpo, sofisticado</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Moderno e Bold" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:14px;height:24px;background:#f21d64"></span><span style="width:10px;height:16px;background:#1a1a25"></span><span style="width:14px;height:20px;background:#ff6b9d"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style2.title">Moderno Bold</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style2.desc">Tipografia grande, cores fortes</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Elegante e Sofisticado" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:8px;height:20px;background:#c9a84c"></span><span style="width:16px;height:12px;background:#1a1a1a"></span><span style="width:8px;height:24px;background:#c9a84c"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style3.title">Elegante</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style3.desc">Dourado, preto, sofisticado</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Colorido e Divertido" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:10px;height:18px;background:#ff6b6b"></span><span style="width:10px;height:22px;background:#ffd93d"></span><span style="width:10px;height:14px;background:#6bcb77"></span><span style="width:10px;height:20px;background:#4d96ff"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style4.title">Colorido</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style4.desc">Varias cores, divertido</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Corporativo e Serio" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:10px;height:22px;background:#2563eb"></span><span style="width:12px;height:14px;background:#64748b"></span><span style="width:10px;height:18px;background:#1e293b"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style5.title">Corporativo</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style5.desc">Serio, azul, confiavel</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Criativo e Artistico" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:12px;height:20px;background:#f21d64;border-radius:50%"></span><span style="width:16px;height:14px;background:#4a9eff;border-radius:50%"></span><span style="width:10px;height:22px;background:#c2185b;border-radius:50%"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style6.title">Criativo</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style6.desc">Layout ousado, artistico</span>
+                        </div>
+                        <div class="briefing-style-card" onclick="selectStyle(this)" data-value="Dark Mode / Neon" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                            <span class="briefing-style-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                            <div class="briefing-style-preview"><span style="width:12px;height:22px;background:#0d0d0d;border:1px solid #f21d64"></span><span style="width:14px;height:16px;background:#0d0d0d;border:1px solid #00e5a0"></span><span style="width:12px;height:20px;background:#0d0d0d;border:1px solid #4a9eff"></span></div>
+                            <span class="briefing-style-title" data-i18n="brief.style7.title">Dark Neon</span>
+                            <span class="briefing-style-desc" data-i18n="brief.style7.desc">Fundo escuro, neon vibrante</span>
+                        </div>
                     </div>
-                    <span class="briefing-field-error">Selecione um estilo</span>
+                    <span class="briefing-field-error" data-i18n="brief.estilo.err">Selecione um estilo</span>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-field-wrap briefing-field-wrap-textarea">
                         <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>
-                        <textarea class="briefing-textarea" name="referencias" placeholder=" " style="min-height:60px"></textarea>
-                        <label class="briefing-label">Referencias Visuais <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Coloque links de sites, layouts ou imagens que voce gosta. Ex:<br><br>"www.site-inspiracao.com.br"<br>"Gosto do visual da Apple, minimalista"<br>"Instagram @marca que gosto"<br><br>Posso criar algo unico baseado nas suas referencias.</span></span></label>
+                        <textarea class="briefing-textarea" name="referencias" id="referencias" placeholder=" " style="min-height:60px"></textarea>
+                        <label class="briefing-label" for="referencias"><span data-i18n="brief.referencias.label">Referencias Visuais</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.referencias.tip">Coloque links de sites, layouts ou imagens que voce gosta. Ex:<br><br>"www.site-inspiracao.com.br"<br>"Gosto do visual da Apple, minimalista"<br>"Instagram @marca que gosto"<br><br>Posso criar algo unico baseado nas suas referencias.</span></span></label>
                     </div>
-                    <div class="briefing-char-count" data-counter="referencias">0 caracteres</div>
+                    <div class="briefing-char-count" data-counter="referencias" data-i18n-attr="data-brief-char|brief.chars">0 caracteres</div>
                 </div>
                 <div class="briefing-field" style="margin-top:1rem">
                     <div class="briefing-field-wrap">
                         <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>
-                        <input class="briefing-input" type="url" name="dominio" placeholder=" ">
-                        <label class="briefing-label">Dominio Proprio <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Se ja tem um dominio, coloque aqui. Ex: "www.suempresa.com.br". Se ainda nao tem, posso ajudar a registrar — custa em torno de R$40/ano.</span></span></label>
+                        <input class="briefing-input" type="url" name="dominio" id="dominio" placeholder=" ">
+                        <label class="briefing-label" for="dominio"><span data-i18n="brief.dominio.label">Dominio Proprio</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.dominio.tip">Se ja tem um dominio, coloque aqui. Ex: "www.suempresa.com.br". Se ainda nao tem, posso ajudar a registrar — custa em torno de R$40/ano.</span></span></label>
                     </div>
                 </div>
                 </div>
@@ -761,18 +1016,18 @@
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-                    Arquivos
+                    <span data-i18n="brief.s5.title">Arquivos</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Envie logotipo, imagens e documentos do seu negocio. Quanto mais materiais, mais fiel fica o resultado. <span class="briefing-tooltip" style="display:inline-flex;vertical-align:middle">?<span class="briefing-tooltip-tip">O que enviar:<br><br><strong>Logotipo:</strong> PNG ou SVG com fundo transparente<br><strong> Fotos:</strong> Imagens de alta qualidade do seu negocio<br><strong> Textos:</strong> Descricoes, frases, slogan<br><strong> Materiais:</strong> Cartao de visita, flyer, folder<br><br>Arraste ou clique pra selecionar. Aceita PNG, JPG, SVG, PDF, DOC, ZIP. Max 10MB por arquivo.</span></span></p>
+                <p class="briefing-section-desc"><span data-i18n="brief.s5.desc">Envie logotipo, imagens e documentos do seu negocio. Quanto mais materiais, mais fiel fica o resultado. </span> <span class="briefing-tooltip" style="display:inline-flex;vertical-align:middle">?<span class="briefing-tooltip-tip" data-i18n="brief.s5.tip">O que enviar:<br><br><strong>Logotipo:</strong> PNG ou SVG com fundo transparente<br><strong> Fotos:</strong> Imagens de alta qualidade do seu negocio<br><strong> Textos:</strong> Descricoes, frases, slogan<br><strong> Materiais:</strong> Cartao de visita, flyer, folder<br><br>Arraste ou clique pra selecionar. Aceita PNG, JPG, SVG, PDF, DOC, ZIP. Max 10MB por arquivo.</span></span></p>
                 <div class="briefing-section-body">
-                <div class="briefing-upload" id="uploadArea" aria-label="Carregar arquivo">
+                <div class="briefing-upload" id="uploadArea" aria-label="Carregar arquivo" data-i18n-attr="aria-label|brief.upload.aria">
                     <input type="file" name="arquivos" id="fileInput" multiple accept=".png,.jpg,.jpeg,.gif,.svg,.pdf,.doc,.docx,.txt,.zip">
                     <div class="briefing-upload-icon">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
                     </div>
-                    <p class="briefing-upload-text">Arraste arquivos ou clique pra selecionar</p>
-                    <p class="briefing-upload-hint">PNG, JPG, SVG, PDF, DOC, ZIP - Max 10MB por arquivo</p>
+                    <p class="briefing-upload-text" data-i18n="brief.upload.text">Arraste arquivos ou clique pra selecionar</p>
+                    <p class="briefing-upload-hint" data-i18n="brief.upload.hint">PNG, JPG, SVG, PDF, DOC, ZIP - Max 10MB por arquivo</p>
                     <div class="briefing-upload-files" id="fileList"></div>
                 </div>
                 </div>
@@ -785,56 +1040,84 @@
                 <div class="briefing-hud-inner">
                 <div class="briefing-section-title">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-                    Prazo e Orcamento
+                    <span data-i18n="brief.s6.title">Prazo e Orcamento</span>
                     <svg class="briefing-section-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                 </div>
-                <p class="briefing-section-desc">Quando voce precisa do site pronto e qual faixa de investimento pretende? Isso ajuda a dimensionar o projeto correto.</p>
+                <p class="briefing-section-desc" data-i18n="brief.s6.desc">Quando voce precisa do site pronto e qual faixa de investimento pretende? Isso ajuda a dimensionar o projeto correto.</p>
                 <div class="briefing-section-body">
                 <div class="briefing-field">
-                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px">Prazo Desejado <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Quando voce precisa do site pronto? Clique nos dias pra selecionar. Dias uteis (seg-sex).<br><br><strong>3 dias:</strong> Landing page simples<br><strong>7 dias:</strong> Site com 3-5 paginas<br><strong>15 dias:</strong> Site completo com extras<br><strong>30 dias:</strong> Projeto grande/loja online</span></span></label>
+                    <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.prazo.label">Prazo Desejado</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.prazo.tip">Quando voce precisa do site pronto? Clique nos dias pra selecionar. Dias uteis (seg-sex).<br><br><strong>3 dias:</strong> Landing page simples<br><strong>7 dias:</strong> Site com 3-5 paginas<br><strong>15 dias:</strong> Site completo com extras<br><strong>30 dias:</strong> Projeto grande/loja online</span></span></label>
                     <div class="briefing-calendar" id="calendarDays"></div>
                     <input type="hidden" name="prazo" id="prazoInput">
                 </div>
                 <div class="briefing-row" style="margin-top:1rem">
                     <div class="briefing-field" data-validate="required">
-                        <div class="briefing-field-wrap">
-                            <select class="briefing-select" name="orcamento" required>
-                                <option value="" disabled selected>&nbsp;</option>
-                                <option value="Ate R$500">Ate R$500</option>
-                                <option value="R$500 a R$1.000">R$500 a R$1.000</option>
-                                <option value="R$1.000 a R$2.500">R$1.000 a R$2.500</option>
-                                <option value="R$2.500 a R$5.000">R$2.500 a R$5.000</option>
-                                <option value="Acima de R$5.000">Acima de R$5.000</option>
-                            </select>
-                            <label class="briefing-label">Orcamento Estimado <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Qual faixa de investimento voce tem em mente? Isso define o escopo do projeto:<br><br><strong>Ate R$500:</strong> Landing page basica<br><strong>R$500 a R$1.000:</strong> Site com 2-3 paginas<br><strong>R$1.000 a R$2.500:</strong> Site completo 4-6 paginas<br><strong>R$2.500 a R$5.000:</strong> Site + CRM + extras<br><strong>Acima R$5.000:</strong> Projeto premium/loja</span></span></label>
+                        <label class="briefing-label" style="position:relative;transform:none;font-size:.72rem;font-weight:500;color:var(--g1);text-transform:uppercase;letter-spacing:.5px"><span data-i18n="brief.orcamento.label">Orcamento Estimado</span> * <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.orcamento.tip">Qual faixa de investimento voce tem em mente? Isso define o escopo do projeto:<br><br><strong>Ate R$500:</strong> Landing page basica<br><strong>R$500 a R$1.000:</strong> Site com 2-3 paginas<br><strong>R$1.000 a R$2.500:</strong> Site completo 4-6 paginas<br><strong>R$2.500 a R$5.000:</strong> Site + CRM + extras<br><strong>Acima R$5.000:</strong> Projeto premium/loja</span></span></label>
+                        <input type="hidden" name="orcamento" id="orcamentoInput" required>
+                        <div class="briefing-budget-cards" id="budgetCards">
+                            <div class="briefing-budget-card" onclick="selectBudget(this)" data-value="Ate R$500" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                                <span class="briefing-budget-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span class="briefing-budget-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                                <span class="briefing-budget-price" data-i18n="brief.budget1.price">Ate R$500</span>
+                                <span class="briefing-budget-scope" data-i18n="brief.budget1.scope">Landing page basica</span>
+                                <div class="briefing-budget-bar"><div class="briefing-budget-bar-fill"></div></div>
+                            </div>
+                            <div class="briefing-budget-card" onclick="selectBudget(this)" data-value="R$500 a R$1.000" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                                <span class="briefing-budget-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span class="briefing-budget-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                                <span class="briefing-budget-price" data-i18n="brief.budget2.price">R$500 a R$1.000</span>
+                                <span class="briefing-budget-scope" data-i18n="brief.budget2.scope">Site com 2-3 paginas</span>
+                                <div class="briefing-budget-bar"><div class="briefing-budget-bar-fill"></div></div>
+                            </div>
+                            <div class="briefing-budget-card" onclick="selectBudget(this)" data-value="R$1.000 a R$2.500" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                                <span class="briefing-budget-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span class="briefing-budget-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                                <span class="briefing-budget-price" data-i18n="brief.budget3.price">R$1.000 a R$2.500</span>
+                                <span class="briefing-budget-scope" data-i18n="brief.budget3.scope">Site completo 4-6 paginas</span>
+                                <div class="briefing-budget-bar"><div class="briefing-budget-bar-fill"></div></div>
+                            </div>
+                            <div class="briefing-budget-card" onclick="selectBudget(this)" data-value="R$2.500 a R$5.000" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                                <span class="briefing-budget-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span class="briefing-budget-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                                <span class="briefing-budget-price" data-i18n="brief.budget4.price">R$2.500 a R$5.000</span>
+                                <span class="briefing-budget-scope" data-i18n="brief.budget4.scope">Site + CRM + extras</span>
+                                <div class="briefing-budget-bar"><div class="briefing-budget-bar-fill"></div></div>
+                            </div>
+                            <div class="briefing-budget-card" onclick="selectBudget(this)" data-value="Acima de R$5.000" data-i18n-value="data-value" tabindex="0" role="radio" aria-checked="false">
+                                <span class="briefing-budget-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
+                                <span class="briefing-budget-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+                                <span class="briefing-budget-price" data-i18n="brief.budget5.price">Acima de R$5.000</span>
+                                <span class="briefing-budget-scope" data-i18n="brief.budget5.scope">Projeto premium / loja</span>
+                                <div class="briefing-budget-bar"><div class="briefing-budget-bar-fill"></div></div>
+                            </div>
                         </div>
-                        <span class="briefing-field-error">Selecione um orcamento</span>
+                        <span class="briefing-field-error" data-i18n="brief.orcamento.err">Selecione um orcamento</span>
                     </div>
-                <div class="briefing-field">
+                    <div class="briefing-field">
                         <div class="briefing-field-wrap briefing-field-wrap-textarea">
                             <span class="briefing-field-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
-                            <textarea class="briefing-textarea" name="observacoes" placeholder=" " style="min-height:70px"></textarea>
-                            <label class="briefing-label">Observacoes Finais <span class="briefing-tooltip">?<span class="briefing-tooltip-tip">Alguma informacao extra que esqueceu de mencionar? Coisas como:<br><br><strong>-</strong> Acessibilidade (fontes grandes, contraste)<br><strong>-</strong> Idiomas (ingles, espanhol)<br><strong>-</strong> Integracao com WhatsApp Business<br><strong>-</strong> Prazo de entrega de materiais<br><strong>-</strong> Qualquer outra coisa importante</span></span></label>
+                            <textarea class="briefing-textarea" name="observacoes" id="observacoes" placeholder=" " style="min-height:70px"></textarea>
+                            <label class="briefing-label" for="observacoes"><span data-i18n="brief.observacoes.label">Observacoes Finais</span> <span class="briefing-tooltip">?<span class="briefing-tooltip-tip" data-i18n="brief.observacoes.tip">Alguma informacao extra que esqueceu de mencionar? Coisas como:<br><br><strong>-</strong> Acessibilidade (fontes grandes, contraste)<br><strong>-</strong> Idiomas (ingles, espanhol)<br><strong>-</strong> Integracao com WhatsApp Business<br><strong>-</strong> Prazo de entrega de materiais<br><strong>-</strong> Qualquer outra coisa importante</span></span></label>
                         </div>
-                        <div class="briefing-char-count" data-counter="observacoes">0 caracteres</div>
+                        <div class="briefing-char-count" data-counter="observacoes" data-i18n-attr="data-brief-char|brief.chars">0 caracteres</div>
                     </div>
                 </div>
                 </div>
                 </div>
             </div>
 
-            <button class="briefing-submit" type="submit" id="submitBtn">
+            <button class="briefing-submit" type="submit" id="submitBtn" data-i18n="brief.submit">
                 Enviar Briefing e Gerar Prompt
             </button>
         </form>
         <div class="briefing-confirm" id="confirmModal">
             <div class="briefing-confirm-box">
-                <h3 class="briefing-confirm-title">Confirmar Envio</h3>
-                <p class="briefing-confirm-sub">Revise suas informacoes antes de enviar.</p>
+                <h3 class="briefing-confirm-title" data-i18n="brief.confirm.title">Confirmar Envio</h3>
+                <p class="briefing-confirm-sub" data-i18n="brief.confirm.sub">Revise suas informacoes antes de enviar.</p>
                 <div class="briefing-confirm-grid" id="confirmGrid"></div>
                 <div class="briefing-confirm-actions">
-                    <button class="briefing-confirm-btn cancel" id="confirmCancel" aria-label="Fechar">Voltar e Editar</button>
-                    <button class="briefing-confirm-btn confirm" id="confirmSend" aria-label="Confirmar envio do briefing">Confirmar Envio</button>
+                    <button class="briefing-confirm-btn cancel" id="confirmCancel" data-i18n="brief.confirm.cancel" data-i18n-attr="aria-label|brief.confirm.cancelAria" aria-label="Fechar">Voltar e Editar</button>
+                    <button class="briefing-confirm-btn confirm" id="confirmSend" data-i18n="brief.confirm.send" data-i18n-attr="aria-label|brief.confirm.sendAria" aria-label="Confirmar envio do briefing">Confirmar Envio</button>
                 </div>
             </div>
         </div>
@@ -842,20 +1125,20 @@
             <div class="briefing-success-icon">
                 <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#f21d64" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
             </div>
-            <h2>Briefing Enviado!</h2>
-            <p>Suas informacoes foram recebidas. Aqui esta o prompt pronto pra executar o site:</p>
+            <h2 data-i18n="brief.success.title">Briefing Enviado!</h2>
+            <p data-i18n="brief.success.sub">Suas informacoes foram recebidas. Aqui esta o prompt pronto pra executar o site:</p>
             <div class="briefing-prompt">
                 <div class="briefing-prompt-label">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
-                    PROMPT DE EXECUCAO
+                    <span data-i18n="brief.success.promptLabel">PROMPT DE EXECUCAO</span>
                 </div>
                 <pre class="briefing-prompt-text" id="promptText"></pre>
-                <button class="briefing-prompt-copy" id="copyPrompt" aria-label="Copiar prompt">Copiar</button>
+                <button class="briefing-prompt-copy" id="copyPrompt" data-i18n="brief.success.copy" data-i18n-attr="aria-label|brief.success.copyAria" aria-label="Copiar prompt">Copiar</button>
             </div>
-            <a href="briefing.html" style="color:var(--accent);font-size:.8rem;text-decoration:none">Enviar outro briefing &rarr;</a>
+            <a href="briefing.html" style="color:var(--accent);font-size:.8rem;text-decoration:none" data-i18n="brief.success.again">Enviar outro briefing &rarr;</a>
         </div>
         <footer class="briefing-footer">
-            <p>Feito por <a href="sites.html">Matteus Camilo</a> &mdash; Criacao de Sites Profissionais</p>
+            <p data-i18n="brief.footer">Feito por <a href="sites.html">Matteus Camilo</a> &mdash; Criacao de Sites Profissionais</p>
         </footer>
     </div>
     <div class="confetti-container" id="confettiContainer"></div>
@@ -870,6 +1153,27 @@ function toggleCheck(el){
     updateCounters();
     updateProgress();
 }
+function togglePage(card){
+    card.classList.toggle('selected');
+    var isSelected=card.classList.contains('selected');
+    card.setAttribute('aria-checked',isSelected);
+    var input=document.getElementById('paginasInput');
+    var selected=[];
+    document.querySelectorAll('.briefing-page-card.selected').forEach(function(c){
+        selected.push(c.getAttribute('data-value'));
+    });
+    input.value=selected.join(', ');
+    var field=input.closest('.briefing-field');
+    if(field){field.classList.toggle('valid',selected.length>0);field.classList.toggle('invalid',false)}
+    playSound('pop');
+    updateCounters();
+    updateProgress();
+}
+document.querySelectorAll('.briefing-page-card').forEach(function(card){
+    card.addEventListener('keydown',function(e){
+        if(e.key===' '||e.key==='Enter'){e.preventDefault();togglePage(card)}
+    });
+});
 function selectObj(card){
     var cards=document.querySelectorAll('.briefing-obj-card');
     cards.forEach(function(c){
@@ -890,14 +1194,46 @@ document.querySelectorAll('.briefing-obj-card').forEach(function(card){
         if(e.key===' '||e.key==='Enter'){e.preventDefault();selectObj(card)}
     });
 });
+function selectStyle(card){
+    document.querySelectorAll('.briefing-style-card').forEach(function(c){
+        c.classList.remove('selected');c.setAttribute('aria-checked','false');
+    });
+    card.classList.add('selected');card.setAttribute('aria-checked','true');
+    var input=document.getElementById('estiloInput');
+    input.value=card.getAttribute('data-value');
+    var field=input.closest('.briefing-field');
+    if(field){field.classList.add('valid');field.classList.remove('invalid')}
+    playSound('pop');updateProgress();
+}
+document.querySelectorAll('.briefing-style-card').forEach(function(card){
+    card.addEventListener('keydown',function(e){
+        if(e.key===' '||e.key==='Enter'){e.preventDefault();selectStyle(card)}
+    });
+});
+function selectBudget(card){
+    document.querySelectorAll('.briefing-budget-card').forEach(function(c){
+        c.classList.remove('selected');c.setAttribute('aria-checked','false');
+    });
+    card.classList.add('selected');card.setAttribute('aria-checked','true');
+    var input=document.getElementById('orcamentoInput');
+    input.value=card.getAttribute('data-value');
+    var field=input.closest('.briefing-field');
+    if(field){field.classList.add('valid');field.classList.remove('invalid')}
+    playSound('pop');updateProgress();
+}
+document.querySelectorAll('.briefing-budget-card').forEach(function(card){
+    card.addEventListener('keydown',function(e){
+        if(e.key===' '||e.key==='Enter'){e.preventDefault();selectBudget(card)}
+    });
+});
 function updateCounters(){
     var pagGroup=document.getElementById('paginasGroup');
     var funcGroup=document.getElementById('funcGroup');
     var pagCounter=document.getElementById('paginasCounter');
     var funcCounter=document.getElementById('funcCounter');
     if(pagGroup&&pagCounter){
-        var total=pagGroup.querySelectorAll('.briefing-check').length;
-        var sel=pagGroup.querySelectorAll('.briefing-check.checked').length;
+        var total=pagGroup.querySelectorAll('.briefing-page-card').length;
+        var sel=pagGroup.querySelectorAll('.briefing-page-card.selected').length;
         pagCounter.textContent=sel+' / '+total;
         pagCounter.classList.toggle('has-items',sel>0);
     }
@@ -922,6 +1258,7 @@ document.addEventListener('DOMContentLoaded',function(){
     var confirmGrid=document.getElementById('confirmGrid');
     var uploadedFiles=[];
     var audioCtx;
+    function tr(k,v){return window.t?window.t(k,v):''}
 
     /* â”€â”€ AUDIO â”€â”€ */
     function getAudioCtx(){
@@ -960,41 +1297,50 @@ document.addEventListener('DOMContentLoaded',function(){
 
     /* â”€â”€ TYPEWRITER â”€â”€ */
     var titleEl=document.getElementById('typewriterTitle');
-    var twParts=['Vamos criar o ',{text:'site perfeito',accent:true},' pra voce'];
     var twIdx=0,twCharIdx=0,twDelay=35;
-    function typewrite(){
-        if(twIdx>=twParts.length){
-            var cur=titleEl.querySelector('.typewriter-cursor');
-            if(cur)setTimeout(function(){cur.style.animation='none';cur.style.opacity='0'},800);
-            return;
-        }
-        var part=twParts[twIdx];
-        if(typeof part==='string'){
-            if(twCharIdx<part.length){
+    var twTimer=null;
+    function startTypewriter(){
+        if(twTimer){clearTimeout(twTimer);twTimer=null}
+        twIdx=0;twCharIdx=0;
+        var cursor=titleEl.querySelector('.typewriter-cursor');
+        titleEl.querySelectorAll('span:not(.typewriter-cursor)').forEach(function(s){s.remove()});
+        if(cursor){cursor.style.animation='';cursor.style.opacity=''}
+        var twParts=[tr('brief.tw1'),{text:tr('brief.tw2'),accent:true},tr('brief.tw3')];
+        function typewrite(){
+            if(twIdx>=twParts.length){
                 var cur=titleEl.querySelector('.typewriter-cursor');
-                var span=document.createElement('span');span.textContent=part[twCharIdx];
-                titleEl.insertBefore(span,cur);
-                twCharIdx++;
-                setTimeout(typewrite,twDelay);
-            }else{twIdx++;twCharIdx=0;typewrite()}
-        }else{
-            if(twCharIdx===0){
-                var cur=titleEl.querySelector('.typewriter-cursor');
-                var acc=document.createElement('span');
-                acc.className='accent';
-                acc.setAttribute('data-text',part.text);
-                acc.id='twAccent';
-                titleEl.insertBefore(acc,cur);
+                if(cur)twTimer=setTimeout(function(){cur.style.animation='none';cur.style.opacity='0'},800);
+                return;
             }
-            var accEl=document.getElementById('twAccent');
-            if(twCharIdx<part.text.length){
-                accEl.textContent+=part.text[twCharIdx];
-                twCharIdx++;
-                setTimeout(typewrite,twDelay);
-            }else{twIdx++;twCharIdx=0;typewrite()}
+            var part=twParts[twIdx];
+            if(typeof part==='string'){
+                if(twCharIdx<part.length){
+                    var cur=titleEl.querySelector('.typewriter-cursor');
+                    var span=document.createElement('span');span.textContent=part[twCharIdx];
+                    titleEl.insertBefore(span,cur);
+                    twCharIdx++;
+                    twTimer=setTimeout(typewrite,twDelay);
+                }else{twIdx++;twCharIdx=0;typewrite()}
+            }else{
+                if(twCharIdx===0){
+                    var cur=titleEl.querySelector('.typewriter-cursor');
+                    var acc=document.createElement('span');
+                    acc.className='accent';
+                    acc.setAttribute('data-text',part.text);
+                    acc.id='twAccent';
+                    titleEl.insertBefore(acc,cur);
+                }
+                var accEl=document.getElementById('twAccent');
+                if(twCharIdx<part.text.length){
+                    accEl.textContent+=part.text[twCharIdx];
+                    twCharIdx++;
+                    twTimer=setTimeout(typewrite,twDelay);
+                }else{twIdx++;twCharIdx=0;typewrite()}
+            }
         }
+        twTimer=setTimeout(typewrite,600);
     }
-    setTimeout(typewrite,600);
+    startTypewriter();
 
     /* â”€â”€ SECTION OBSERVER + STEP TRACKER â”€â”€ */
     var stepSections=document.querySelectorAll('.briefing-section');
@@ -1035,50 +1381,74 @@ document.addEventListener('DOMContentLoaded',function(){
     /* â”€â”€ CALENDAR / PRAZO â”€â”€ */
     var calendarDays=document.getElementById('calendarDays');
     var prazoInput=document.getElementById('prazoInput');
-    var prazos=[
-        {label:'3 dias',val:'Urgente (ate 3 dias)',days:3},
-        {label:'7 dias',val:'Rapido (ate 7 dias)',days:7},
-        {label:'15 dias',val:'Normal (ate 15 dias)',days:15},
-        {label:'30 dias',val:'Sem pressa (ate 30 dias)',days:30}
-    ];
-    prazos.forEach(function(p){
-        var day=document.createElement('div');
-        day.className='briefing-calendar-day';
-        day.innerHTML='<span class="day-num">'+p.days+'</span><span class="day-label">'+p.label.split(' ')[1]+'</span>';
-        day.addEventListener('click',function(){
-            calendarDays.querySelectorAll('.briefing-calendar-day').forEach(function(d){d.classList.remove('selected')});
-            day.classList.add('selected');
-            prazoInput.value=p.val;
-            updateProgress();
+    var prazos=[];
+    function renderCalendar(){
+        prazos=[
+            {label:tr('brief.prazos1.label'),val:tr('brief.prazos1.val'),days:3,desc:tr('brief.prazos1.desc')},
+            {label:tr('brief.prazos2.label'),val:tr('brief.prazos2.val'),days:7,desc:tr('brief.prazos2.desc')},
+            {label:tr('brief.prazos3.label'),val:tr('brief.prazos3.val'),days:15,desc:tr('brief.prazos3.desc')},
+            {label:tr('brief.prazos4.label'),val:tr('brief.prazos4.val'),days:30,desc:tr('brief.prazos4.desc')}
+        ];
+        var selectedVal=prazoInput.value;
+        calendarDays.innerHTML='';
+        prazos.forEach(function(p){
+            var day=document.createElement('div');
+            day.className='briefing-calendar-day';
+            day.innerHTML='<span class="day-num">'+p.days+'</span><span class="day-label">'+p.label.split(' ')[1]+'</span><span class="day-desc">'+p.desc+'</span>';
+            day.setAttribute('tabindex','0');
+            day.setAttribute('role','radio');
+            day.setAttribute('aria-checked','false');
+            if(p.val===selectedVal){day.classList.add('selected');day.setAttribute('aria-checked','true')}
+            day.addEventListener('click',function(){
+                calendarDays.querySelectorAll('.briefing-calendar-day').forEach(function(d){d.classList.remove('selected');d.setAttribute('aria-checked','false')});
+                day.classList.add('selected');day.setAttribute('aria-checked','true');
+                prazoInput.value=p.val;
+                var field=prazoInput.closest('.briefing-field');
+                if(field){field.classList.add('valid');field.classList.remove('invalid')}
+                playSound('pop');updateProgress();
+            });
+            day.addEventListener('keydown',function(e){
+                if(e.key===' '||e.key==='Enter'){e.preventDefault();day.click()}
+            });
+            calendarDays.appendChild(day);
         });
-        calendarDays.appendChild(day);
-    });
+    }
+    renderCalendar();
 
     /* â”€â”€ FILE UPLOAD â”€â”€ */
     uploadArea.addEventListener('dragover',function(e){e.preventDefault();uploadArea.classList.add('dragover')});
     uploadArea.addEventListener('dragleave',function(){uploadArea.classList.remove('dragover')});
     uploadArea.addEventListener('drop',function(e){e.preventDefault();uploadArea.classList.remove('dragover');handleFiles(e.dataTransfer.files)});
-    fileInput.addEventListener('change',function(){handleFiles(fileInput.files)});
+    fileInput.addEventListener('change',function(){handleFiles(fileInput.files);fileInput.value=''});
     function handleFiles(files){
         Array.from(files).forEach(function(file){
-            if(uploadedFiles.length>=10||file.size>10*1024*1024)return;
+            if(uploadedFiles.length>=10)return;
+            if(file.size>10*1024*1024){alert(tr('brief.fileTooBig',{name:file.name,size:(file.size/1024/1024).toFixed(1)}));return}
             uploadedFiles.push(file);
             var tag=document.createElement('div');
             tag.className='briefing-upload-file';
             var size=(file.size/1024).toFixed(0);
-            tag.innerHTML='<span>'+file.name+' ('+size+'KB)</span><button type="button" onclick="removeFile(this,\''+file.name+'\')">&times;</button>';
+            var nameSpan=document.createElement('span');
+            nameSpan.textContent=file.name+' ('+size+'KB)';
+            var delBtn=document.createElement('button');
+            delBtn.type='button';
+            delBtn.textContent='\u00D7';
+            var safeName=file.name;
+            delBtn.addEventListener('click',function(){window.removeFile(tag,safeName)});
+            tag.appendChild(nameSpan);
+            tag.appendChild(delBtn);
             fileList.appendChild(tag);
             updateProgress();
         });
     }
-    window.removeFile=function(btn,name){
+    window.removeFile=function(el,name){
         uploadedFiles=uploadedFiles.filter(function(f){return f.name!==name});
-        btn.parentElement.remove();
+        el.remove();
         updateProgress();
     };
 
     /* â”€â”€ VALIDATION â”€â”€ */
-    function validateField(field){
+    function validateField(field,silent){
         var type=field.dataset.validate;
         if(!type)return true;
         var input=field.querySelector('input,textarea,select');
@@ -1091,7 +1461,7 @@ document.addEventListener('DOMContentLoaded',function(){
         else if(type==='min10')valid=val.length>=10;
         field.classList.toggle('valid',valid&&val.length>0);
         field.classList.toggle('invalid',!valid&&val.length>0);
-        if(!valid&&val.length>0)playSound('buzz');
+        if(!valid&&val.length>0&&!silent)playSound('buzz');
         return valid;
     }
     form.querySelectorAll('[data-validate]').forEach(function(field){
@@ -1099,26 +1469,11 @@ document.addEventListener('DOMContentLoaded',function(){
         if(input){
             input.addEventListener('blur',function(){validateField(field)});
             input.addEventListener('input',function(){
-                if(field.classList.contains('invalid'))validateFieldSilent(field);
+                if(field.classList.contains('invalid'))validateField(field,true);
                 updateProgress();
             });
         }
     });
-    function validateFieldSilent(field){
-        var type=field.dataset.validate;
-        if(!type)return true;
-        var input=field.querySelector('input,textarea,select');
-        if(!input)return true;
-        var val=input.value.trim();
-        var valid=true;
-        if(type==='required')valid=val.length>0;
-        else if(type==='email')valid=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
-        else if(type==='phone')valid=val.replace(/\D/g,'').length>=10;
-        else if(type==='min10')valid=val.length>=10;
-        field.classList.toggle('valid',valid&&val.length>0);
-        field.classList.toggle('invalid',!valid&&val.length>0);
-        return valid;
-    }
 
     /* â”€â”€ SELECT FLOATING LABELS â”€â”€ */
     form.querySelectorAll('.briefing-select').forEach(function(sel){
@@ -1144,7 +1499,7 @@ document.addEventListener('DOMContentLoaded',function(){
         var fields=form.querySelectorAll('input:not([type=file]):not([type=checkbox]):not([type=color]),textarea,select');
         var filled=0;var total=0;
         fields.forEach(function(f){
-            if(f.name&&f.name!=='arquivos'&&f.name!=='prazo'){
+            if(f.name&&f.name!=='arquivos'&&f.name!=='prazo'&&f.name!=='_gotcha'){
                 total++;
                 if(f.value.trim())filled++;
             }
@@ -1161,6 +1516,7 @@ document.addEventListener('DOMContentLoaded',function(){
             m.classList.toggle('active',pct>=pos);
         });
     }
+    window.updateProgress=updateProgress;
 
     /* â”€â”€ FORM SUBMIT â”€â”€ */
     form.addEventListener('submit',function(e){
@@ -1183,27 +1539,39 @@ document.addEventListener('DOMContentLoaded',function(){
         var checks=[];
         form.querySelectorAll('input[type=checkbox]:checked').forEach(function(c){checks.push(c.value)});
         var items=[
-            {label:'Nome',val:d.nome||'-'},
-            {label:'Empresa',val:d.empresa||'-'},
-            {label:'Email',val:d.email||'-'},
-            {label:'Telefone',val:d.telefone||'-'},
-            {label:'Ramo',val:d.ramo||'-'},
-            {label:'Objetivo',val:d.objetivo||'-'},
-            {label:'Paginas',val:checks.length?checks.join(', '):'-'},
-            {label:'Prazo',val:d.prazo||'-'},
-            {label:'Orcamento',val:d.orcamento||'-'},
-            {label:'Arquivos',val:uploadedFiles.length+' arquivo(s)'}
+            {label:tr('brief.confirm.name'),val:d.nome||'-'},
+            {label:tr('brief.confirm.company'),val:d.empresa||'-'},
+            {label:tr('brief.confirm.email'),val:d.email||'-'},
+            {label:tr('brief.confirm.phone'),val:d.telefone||'-'},
+            {label:tr('brief.confirm.ramo'),val:d.ramo||'-'},
+            {label:tr('brief.confirm.objetivo'),val:d.objetivo||'-'},
+            {label:tr('brief.confirm.paginas'),val:d.paginas||'-'},
+            {label:tr('brief.confirm.func'),val:checks.length?checks.join(', '):'-'},
+            {label:tr('brief.confirm.prazo'),val:d.prazo||'-'},
+            {label:tr('brief.confirm.orcamento'),val:d.orcamento||'-'},
+            {label:tr('brief.confirm.files'),val:tr('brief.filesCount',{n:uploadedFiles.length})}
         ];
         confirmGrid.innerHTML='';
         items.forEach(function(it){
             var div=document.createElement('div');
             div.className='briefing-confirm-item';
             if(it.val.length>50)div.className+=' full';
-            div.innerHTML='<label>'+it.label+'</label><span>'+it.val+'</span>';
+            var lbl=document.createElement('label');
+            lbl.textContent=it.label;
+            var spn=document.createElement('span');
+            spn.textContent=it.val;
+            div.appendChild(lbl);
+            div.appendChild(spn);
             confirmGrid.appendChild(div);
         });
         confirmModal.classList.add('show');
     }
+    confirmModal.addEventListener('click',function(e){
+        if(e.target===confirmModal)confirmModal.classList.remove('show');
+    });
+    document.addEventListener('keydown',function(e){
+        if(e.key==='Escape'&&confirmModal.classList.contains('show'))confirmModal.classList.remove('show');
+    });
     document.getElementById('confirmCancel').addEventListener('click',function(){
         confirmModal.classList.remove('show');
     });
@@ -1211,12 +1579,12 @@ document.addEventListener('DOMContentLoaded',function(){
         confirmModal.classList.remove('show');
         submitBtn.disabled=true;
         submitBtn.classList.add('briefing-submit-loading');
-        submitBtn.innerHTML='<span class="briefing-submit-spinner"></span>Enviando...';
+        submitBtn.innerHTML='<span class="briefing-submit-spinner"></span>'+tr('brief.submitting');
         var fd=new FormData(form);
         uploadedFiles.forEach(function(f){fd.append('arquivos',f)});
         fetch(form.action,{method:'POST',body:fd,headers:{'Accept':'application/json'}})
         .then(function(r){if(r.ok){localStorage.removeItem('briefing-draft');showSuccess();generatePrompt();launchConfetti();playSound('chime')}else{throw new Error()}})
-        .catch(function(){submitBtn.disabled=false;submitBtn.classList.remove('briefing-submit-loading');submitBtn.textContent='Enviar Briefing e Gerar Prompt';alert('Erro ao enviar. Tente novamente.')});
+        .catch(function(){submitBtn.disabled=false;submitBtn.classList.remove('briefing-submit-loading');submitBtn.innerHTML=tr('brief.submit');alert(tr('brief.submitError'))});
     });
     function showSuccess(){
         form.style.display='none';
@@ -1234,21 +1602,21 @@ document.addEventListener('DOMContentLoaded',function(){
         form.querySelectorAll('input[type=checkbox]:checked').forEach(function(c){if(!chk[c.name])chk[c.name]=[];chk[c.name].push(c.value)});
         var cPri=form.querySelector('[name=cor_principal]');
         var cSec=form.querySelector('[name=cor_secundaria]');
-        var p='PROMPT DE EXECUCAO - SITE PROFISSIONAL\n========================================\n\n';
-        p+='DADOS DO CLIENTE\nNome: '+(d.nome||'N/A')+'\nEmpresa: '+(d.empresa||'N/A')+'\nEmail: '+(d.email||'N/A')+'\nTelefone: '+(d.telefone||'N/A')+'\n\n';
-        p+='SOBRE O NEGOCIO\nRamo: '+(d.ramo||'N/A')+'\nDescricao: '+(d.descricao||'N/A')+'\nPublico: '+(d.publico||'N/A')+'\nObjetivo: '+(d.objetivo||'N/A')+'\nConcorrentes: '+(d.concorrentes||'N/A')+'\n\n';
-        p+='ESTRUTURA\nPaginas: '+(chk.paginas?chk.paginas.join(', '):'N/A')+'\nFuncionalidades: '+(chk.funcionalidades?chk.funcionalidades.join(', '):'N/A')+'\nOutras: '+(d.outras_info||'N/A')+'\n\n';
-        p+='VISUAL\nCor Principal: '+(cPri?cPri.value:'#f21d64')+'\nCor Secundaria: '+(cSec?cSec.value:'#000000')+'\nEstilo: '+(d.estilo||'N/A')+'\nReferencias: '+(d.referencias||'N/A')+'\nDominio: '+(d.dominio||'A definir')+'\n\n';
-        p+='PRAZO E ORCAMENTO\nPrazo: '+(d.prazo||'N/A')+'\nOrcamento: '+(d.orcamento||'N/A')+'\nObs: '+(d.observacoes||'N/A')+'\n\n';
-        p+='========================================\nArquivos: '+uploadedFiles.length+' arquivo(s)\n';
+        var p=tr('brief.prompt.title')+'\n========================================\n\n';
+        p+=tr('brief.prompt.clients')+'\n'+(d.nome?tr('brief.prompt.nome'):'')+(d.nome||'N/A')+'\n'+tr('brief.prompt.empresa')+(d.empresa||'N/A')+'\n'+tr('brief.prompt.email')+(d.email||'N/A')+'\n'+tr('brief.prompt.telefone')+(d.telefone||'N/A')+'\n\n';
+        p+=tr('brief.prompt.business')+'\n'+tr('brief.prompt.ramo')+(d.ramo||'N/A')+'\n'+tr('brief.prompt.descricao')+(d.descricao||'N/A')+'\n'+tr('brief.prompt.publico')+(d.publico||'N/A')+'\n'+tr('brief.prompt.objetivo')+(d.objetivo||'N/A')+'\n'+tr('brief.prompt.concorrentes')+(d.concorrentes||'N/A')+'\n\n';
+        p+=tr('brief.prompt.structure')+'\n'+tr('brief.prompt.paginas')+(d.paginas||'N/A')+'\n'+tr('brief.prompt.funcionalidades')+(chk.funcionalidades?chk.funcionalidades.join(', '):'N/A')+'\n'+tr('brief.prompt.outras')+(d.outras_info||'N/A')+'\n\n';
+        p+=tr('brief.prompt.visual')+'\n'+tr('brief.prompt.corPri')+(cPri?cPri.value:'#f21d64')+'\n'+tr('brief.prompt.corSec')+(cSec?cSec.value:'#000000')+'\n'+tr('brief.prompt.estilo')+(d.estilo||'N/A')+'\n'+tr('brief.prompt.referencias')+(d.referencias||'N/A')+'\n'+tr('brief.prompt.dominio')+(d.dominio||'N/A')+'\n\n';
+        p+=tr('brief.prompt.deadline')+'\n'+tr('brief.prompt.prazo')+(d.prazo||'N/A')+'\n'+tr('brief.prompt.orcamento')+(d.orcamento||'N/A')+'\n'+tr('brief.prompt.obs')+(d.observacoes||'N/A')+'\n\n';
+        p+='========================================\n'+tr('brief.filesCount',{n:uploadedFiles.length})+'\n';
         if(uploadedFiles.length>0)uploadedFiles.forEach(function(f){p+='  - '+f.name+'\n'});
-        p+='\nINSTRUCAO: Crie um site profissional premium com as informacoes acima. Design clean e moderno, animacoes suaves, responsivo, WhatsApp flutuante, formulario de contato, otimizado para SEO.';
+        p+='\n'+tr('brief.prompt.instruction');
         promptText.textContent=p;
     }
     copyBtn.addEventListener('click',function(){
         navigator.clipboard.writeText(promptText.textContent).then(function(){
-            copyBtn.textContent='Copiado!';copyBtn.classList.add('copied');
-            setTimeout(function(){copyBtn.textContent='Copiar';copyBtn.classList.remove('copied')},2000);
+            copyBtn.textContent=tr('brief.success.copied');copyBtn.classList.add('copied');
+            setTimeout(function(){copyBtn.textContent=tr('brief.success.copy');copyBtn.classList.remove('copied')},2000);
         });
     });
     function launchConfetti(){
@@ -1281,6 +1649,8 @@ document.addEventListener('DOMContentLoaded',function(){
     /* â”€â”€ RIPPLE ON CHECKBOXES + KEYBOARD â”€â”€ */
     document.querySelectorAll('.briefing-check').forEach(function(chk){
         chk.addEventListener('click',function(e){
+            e.preventDefault();
+            toggleCheck(chk);
             var rect=chk.getBoundingClientRect();
             var x=e.clientX-rect.left;
             var y=e.clientY-rect.top;
@@ -1352,7 +1722,9 @@ document.addEventListener('DOMContentLoaded',function(){
             particlesBg.appendChild(p);
             particles.push({el:p,x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,size:size});
         }
+        var particlesRunning=true;
         function animParticles(){
+            if(!particlesRunning)return;
             particles.forEach(function(pt){
                 pt.x+=pt.vx;pt.y+=pt.vy;
                 if(pt.x<0)pt.x=window.innerWidth;
@@ -1366,6 +1738,10 @@ document.addEventListener('DOMContentLoaded',function(){
             requestAnimationFrame(animParticles);
         }
         animParticles();
+        document.addEventListener('visibilitychange',function(){
+            particlesRunning=!document.hidden;
+            if(!document.hidden)animParticles();
+        });
     }
 
     /* AUTO-SAVE TO LOCALSTORAGE */
@@ -1407,12 +1783,23 @@ document.addEventListener('DOMContentLoaded',function(){
             });
             if(data._checks){
                 data._checks.forEach(function(ch){
-                    var cb=form.querySelector('.briefing-check input[name="'+ch.name+'"][value="'+ch.value+'"]');
+                    var cb=Array.from(form.querySelectorAll('.briefing-check input')).find(function(el){return el.name===ch.name&&el.value===ch.value});
                     if(cb&&ch.checked){
                         var label=cb.closest('.briefing-check');
                         if(label){label.classList.add('checked');cb.checked=true;}
                     }
                 });
+            }
+            if(data.paginas){
+                var pagValues=(data.paginas||'').split(',').map(function(s){return s.trim()});
+                document.querySelectorAll('.briefing-page-card').forEach(function(card){
+                    if(pagValues.indexOf(card.getAttribute('data-value'))>=0){
+                        card.classList.add('selected');
+                        card.setAttribute('aria-checked','true');
+                    }
+                });
+                var pagField=document.getElementById('paginasInput').closest('.briefing-field');
+                if(pagField&&pagValues.length>0){pagField.classList.add('valid');pagField.classList.remove('invalid')}
             }
             if(data._prazo){
                 prazoInput.value=data._prazo;
@@ -1421,13 +1808,24 @@ document.addEventListener('DOMContentLoaded',function(){
                 });
             }
             if(data.objetivo){
-                var matchCard=document.querySelector('.briefing-obj-card[data-value="'+data.objetivo+'"]');
+                var matchCard=Array.from(document.querySelectorAll('.briefing-obj-card')).find(function(c){return c.getAttribute('data-value')===data.objetivo});
                 if(matchCard)selectObj(matchCard);
+            }
+            if(data.estilo){
+                var matchStyle=Array.from(document.querySelectorAll('.briefing-style-card')).find(function(c){return c.getAttribute('data-value')===data.estilo});
+                if(matchStyle)selectStyle(matchStyle);
+            }
+            if(data.orcamento){
+                var matchBudget=Array.from(document.querySelectorAll('.briefing-budget-card')).find(function(c){return c.getAttribute('data-value')===data.orcamento});
+                if(matchBudget)selectBudget(matchBudget);
             }
             updateProgress();
             updateCounters();
             form.querySelectorAll('[data-validate]').forEach(function(f){validateField(f)});
-        }catch(e){}
+        }catch(e){
+            localStorage.removeItem(autoSaveKey);
+            console.warn('Briefing: rascunho corrompido, removido.');
+        }
     }
     restoreDraft();
     form.addEventListener('input',function(e){
@@ -1448,7 +1846,7 @@ document.addEventListener('DOMContentLoaded',function(){
         });
         if(!hasData){var checks=form.querySelectorAll('input[type=checkbox]:checked');if(checks.length>0)hasData=true}
         if(!hasData&&uploadedFiles.length>0)hasData=true;
-        if(hasData){e.preventDefault();e.returnValue='Voce tem dados nao salvos. Tem certeza que quer sair?'}
+        if(hasData){e.preventDefault();e.returnValue=''}
     });
 
     /* CHARACTER COUNTERS */
@@ -1461,14 +1859,14 @@ document.addEventListener('DOMContentLoaded',function(){
             function update(){
                 var len=textarea.value.length;
                 if(isMin10){
-                    counter.textContent=len+' caracteres (minimo 10)';
+                    counter.textContent=tr('brief.charsMin',{n:len});
                     if(textarea.value.trim().length>0){
                         counter.className='briefing-char-count '+(len>=10?'valid':'invalid');
                     }else{
                         counter.className='briefing-char-count';
                     }
                 }else{
-                    counter.textContent=len+' caracteres';
+                    counter.textContent=tr('brief.chars',{n:len});
                 }
             }
             textarea.addEventListener('input',update);
@@ -1513,11 +1911,20 @@ document.addEventListener('DOMContentLoaded',function(){
                 if(allCollapsed)s.classList.add('collapsed');
                 else s.classList.remove('collapsed');
             });
-            toggleAllBtn.innerHTML=allCollapsed?'&#9650; Expandir tudo':'&#9660; Recolher tudo';
+            toggleAllBtn.textContent=allCollapsed?tr('brief.toggleAllExpand'):tr('brief.toggleAllCollapse');
         });
     }
+
+    /* â”€â”€ RE-RENDER ON LANGUAGE CHANGE â”€â”€ */
+    document.addEventListener('i18n:changed',function(){
+        renderCalendar();
+        startTypewriter();
+        initCharCounters();
+        if(toggleAllBtn)toggleAllBtn.textContent=allCollapsed?tr('brief.toggleAllExpand'):tr('brief.toggleAllCollapse');
+    });
 });
 </script>
 </body>
 </html>
+
 

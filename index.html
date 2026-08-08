@@ -77,7 +77,7 @@
 </head>
 <body>
 
-    <a href="#hero" class="skip-link" id="skipLink">Pular para o conteúdo</a>
+    <a href="#hero" class="skip-link" id="skipLink" data-i18n="common.skip">Pular para o conteúdo</a>
 
     <!-- SVG Symbols -->
     <svg style="display:none" xmlns="http://www.w3.org/2000/svg">
@@ -144,14 +144,18 @@
                 <span class="logo-text">AUDIOVISUAL</span>
             </a>
             <div class="nav-links">
-                <a href="#portfolio" class="nav-link">Portfólio</a>
-                <a href="#depoimentos" class="nav-link">Depoimentos</a>
-                <a href="#servicos" class="nav-link">Serviços</a>
-                <a href="sites.html" class="nav-link" style="color:var(--accent)">Criação de Sites</a>
+                <a href="#portfolio" class="nav-link" data-i18n="nav.portfolio">Portfólio</a>
+                <a href="#depoimentos" class="nav-link" data-i18n="nav.depoimentos">Depoimentos</a>
+                <a href="#servicos" class="nav-link" data-i18n="nav.servicos">Serviços</a>
+                <a href="sites.html" class="nav-link" style="color:var(--accent)" data-i18n="nav.sites">Criação de Sites</a>
                 <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="nav-cta" target="_blank" rel="noopener noreferrer">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                    Fale Comigo
+                    <span data-i18n="nav.cta">Fale Comigo</span>
                 </a>
+            </div>
+            <div class="lang-switch" role="group" aria-label="Idioma">
+                <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
+                <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
             </div>
             <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
             <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema" aria-pressed="false">
@@ -164,14 +168,18 @@
     <!-- Mobile Menu -->
     <div class="mobile-overlay" id="mobileOverlay">
         <div class="mobile-overlay-content">
-            <a href="#portfolio" class="mobile-link">Portfólio</a>
-            <a href="#depoimentos" class="mobile-link">Depoimentos</a>
-            <a href="#servicos" class="mobile-link">Serviços</a>
-            <a href="sites.html" class="mobile-link" style="color:var(--accent)">Criação de Sites</a>
+            <a href="#portfolio" class="mobile-link" data-i18n="nav.portfolio">Portfólio</a>
+            <a href="#depoimentos" class="mobile-link" data-i18n="nav.depoimentos">Depoimentos</a>
+            <a href="#servicos" class="mobile-link" data-i18n="nav.servicos">Serviços</a>
+            <a href="sites.html" class="mobile-link" style="color:var(--accent)" data-i18n="nav.sites">Criação de Sites</a>
             <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="mobile-cta" target="_blank" rel="noopener noreferrer">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                Chamar no WhatsApp
+                <span data-i18n="index.cta.btn">Chamar no WhatsApp</span>
             </a>
+            <div class="lang-switch" role="group" aria-label="Idioma">
+                <button type="button" class="lang-btn" data-lang="pt" aria-pressed="false">PT</button>
+                <button type="button" class="lang-btn" data-lang="en" aria-pressed="false">EN</button>
+            </div>
         </div>
     </div>
 
@@ -187,33 +195,33 @@
             <h1 class="hero-title">
                 <span class="hero-line hero-line-gradient">Matteus</span>
                 <span class="hero-line hero-line-accent"><em>Camilo</em></span>
-                <span class="sr-only">Editor de Vídeo Premium Profissional</span>
+                <span class="sr-only" data-i18n="index.sr.subtitle">Editor de Vídeo Premium Profissional</span>
             </h1>
-            <div class="hero-badge-pill">PRODUTOR AUDIOVISUAL PREMIUM</div>
-            <p class="hero-desc" id="heroDesc">Transformo suas ideias em <strong><em>experiências visuais</em></strong> que geram <strong>resultados reais</strong>. Com 13 anos de experiência, entrego edição <strong><em>cinematográfica</em></strong> para marcas premium no <strong><em>Brasil</em></strong> e na <strong><em>Europa</em></strong>.</p>
+            <div class="hero-badge-pill" data-i18n="index.hero.badge">PRODUTOR AUDIOVISUAL PREMIUM</div>
+            <p class="hero-desc" id="heroDesc" data-i18n="index.hero.desc">Transformo suas ideias em <strong><em>experiências visuais</em></strong> que geram <strong>resultados reais</strong>. Com 13 anos de experiência, entrego edição <strong><em>cinematográfica</em></strong> para marcas premium no <strong><em>Brasil</em></strong> e na <strong><em>Europa</em></strong>.</p>
             <div class="hero-actions">
                 <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="btn-wa btn-glow" target="_blank" rel="noopener noreferrer">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                    Solicitar Orçamento
+                    <span data-i18n="index.hero.ctaQuote">Solicitar Orçamento</span>
                 </a>
                 <a href="#portfolio" class="btn-outline btn-glow">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                    Ver Projetos
+                    <span data-i18n="index.hero.ctaProjects">Ver Projetos</span>
                 </a>
             </div>
             <div class="hero-flags">
                 <span class="flag"><img src="https://flagcdn.com/w40/br.png" alt="Brasil" width="24" height="16"></span><span class="flag"><img src="https://flagcdn.com/w40/pt.png" alt="Portugal" width="24" height="16"></span><span class="flag"><img src="https://flagcdn.com/w40/es.png" alt="Espanha" width="24" height="16"></span><span class="flag"><img src="https://flagcdn.com/w40/us.png" alt="Estados Unidos" width="24" height="16"></span><span class="flag"><img src="https://flagcdn.com/w40/eu.png" alt="Europa" width="24" height="16"></span>
             </div>
             <div class="hero-stats">
-                <div class="stat"><div class="stat-num"><span data-count="13">0</span><span class="stat-suffix">+</span></div><div class="stat-label">Anos de Experiência</div></div>
+                <div class="stat"><div class="stat-num"><span data-count="13">0</span><span class="stat-suffix">+</span></div><div class="stat-label" data-i18n="index.hero.stat1">Anos de Experiência</div></div>
                 <div class="stat-divider"></div>
-                <div class="stat"><div class="stat-num"><span data-count="500">0</span><span class="stat-suffix">+</span></div><div class="stat-label">Projetos Entregues</div></div>
+                <div class="stat"><div class="stat-num"><span data-count="500">0</span><span class="stat-suffix">+</span></div><div class="stat-label" data-i18n="index.hero.stat2">Projetos Entregues</div></div>
                 <div class="stat-divider"></div>
-                <div class="stat"><div class="stat-num"><span data-count="98">0</span><span class="stat-suffix">%</span></div><div class="stat-label">Clientes Satisfeitos</div></div>
+                <div class="stat"><div class="stat-num"><span data-count="98">0</span><span class="stat-suffix">%</span></div><div class="stat-label" data-i18n="index.hero.stat3">Clientes Satisfeitos</div></div>
             </div>
         </div>
         <div class="hero-scroll">
-            <span>Scroll</span>
+            <span data-i18n="index.hero.scroll">Scroll</span>
             <div class="scroll-arrow">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
@@ -224,16 +232,16 @@
     <section class="portfolio" id="portfolio">
         <div class="container">
             <div class="section-head">
-                <span class="tag">PORTFÓLIO</span>
-                <h2 class="section-title">Projetos em Destaque</h2>
-                <p class="section-sub">Cada frame é pensado para transmitir a essência da sua marca.</p>
+                <span class="tag" data-i18n="index.portfolio.tag">PORTFÓLIO</span>
+                <h2 class="section-title" data-i18n="index.portfolio.title">Projetos em Destaque</h2>
+                <p class="section-sub" data-i18n="index.portfolio.sub">Cada frame é pensado para transmitir a essência da sua marca.</p>
             </div>
 
             <!-- Edição para YouTube -->
             <div class="yt-carousel">
-                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3>Edição para YouTube</h3></div>
+                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3 data-i18n="index.yt.youtube">Edição para YouTube</h3></div>
                 <div class="yt-carousel-wrap">
-                    <button class="yt-arrow yt-prev" aria-label="Anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-prev" aria-label="Anterior" data-i18n-attr="aria-label|a11y.prev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
                     <div class="yt-track-wrap"><div class="yt-track">
 
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/7tFGJmgzQrw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Simão Lameiro</span><span class="yt-sep">·</span><h4>Fisiculturista</h4></div></div>
@@ -242,15 +250,15 @@
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/v3tQV0jLA3c" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">FALA MAIS!</span><span class="yt-sep">·</span><h4>Podcast</h4></div></div>
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/qBSIhqn_MhE" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Marcelo Mochileiro</span><span class="yt-sep">·</span><h4>Nômade Digital</h4></div></div>
                     </div></div>
-                    <button class="yt-arrow yt-next" aria-label="Próximo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-next" aria-label="Próximo" data-i18n-attr="aria-label|a11y.next"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
             </div>
 
             <!-- Reels -->
             <div class="yt-carousel">
-                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3>Reels & Conteúdo Vertical</h3></div>
+                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3 data-i18n="index.yt.reels">Reels & Conteúdo Vertical</h3></div>
                 <div class="yt-carousel-wrap">
-                    <button class="yt-arrow yt-prev" aria-label="Anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-prev" aria-label="Anterior" data-i18n-attr="aria-label|a11y.prev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
                     <div class="yt-track-wrap"><div class="yt-track yt-track-reels">
                         <div class="yt-card yt-card-reel"><div class="yt-embed yt-embed-reel"><iframe data-src="https://www.youtube.com/embed/c8ZPrmry6r0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">João Gerolin</span><span class="yt-sep">·</span><h4>Reels</h4></div></div>
                         <div class="yt-card yt-card-reel"><div class="yt-embed yt-embed-reel"><iframe data-src="https://www.youtube.com/embed/3y117Pfnyzs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Diógenes</span><span class="yt-sep">·</span><h4>Reels</h4></div></div>
@@ -295,15 +303,15 @@
                         <div class="yt-card yt-card-reel"><div class="yt-embed yt-embed-reel"><iframe data-src="https://www.youtube.com/embed/wqgOJRVcv8U" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Faus Soluções</span><span class="yt-sep">·</span><h4>Institucional</h4></div></div>
                         <div class="yt-card yt-card-reel"><div class="yt-embed yt-embed-reel"><iframe data-src="https://www.youtube.com/embed/Dq38QqgneBs" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Ortho Premium</span><span class="yt-sep">·</span><h4>Institucional</h4></div></div>
                     </div></div>
-                    <button class="yt-arrow yt-next" aria-label="Próximo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-next" aria-label="Próximo" data-i18n-attr="aria-label|a11y.next"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
             </div>
 
             <!-- Comerciais de TV, Vídeo Clipes & Eventos -->
             <div class="yt-carousel">
-                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3>Comerciais de TV, Vídeo Clipes & Eventos</h3></div>
+                <div class="yt-carousel-head"><span class="yt-carousel-dot"></span><h3 data-i18n="index.yt.comerciais">Comerciais de TV, Vídeo Clipes & Eventos</h3></div>
                 <div class="yt-carousel-wrap">
-                    <button class="yt-arrow yt-prev" aria-label="Anterior"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-prev" aria-label="Anterior" data-i18n-attr="aria-label|a11y.prev"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
                     <div class="yt-track-wrap"><div class="yt-track">
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/FFGPFVUb2-U" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Auto Elite</span><span class="yt-sep">·</span><h4>Comercial de TV</h4></div></div>
 
@@ -315,13 +323,13 @@
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/U3wuS_YehD4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Faus Educação</span><span class="yt-sep">·</span><h4>Aula Logística</h4></div></div>
                         <div class="yt-card"><div class="yt-embed"><iframe data-src="https://www.youtube.com/embed/UPSun7DH0aY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe></div><div class="yt-card-info"><span class="yt-client">Rinaldo Ramos</span><span class="yt-sep">·</span><h4>Aula Curso</h4></div></div>
                     </div></div>
-                    <button class="yt-arrow yt-next" aria-label="Próximo"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+                    <button class="yt-arrow yt-next" aria-label="Próximo" data-i18n-attr="aria-label|a11y.next"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
                 </div>
             </div>
             <div class="section-cta reveal">
                 <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="btn-wa" target="_blank" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                    Solicitar Orçamento
+                    <span data-i18n="index.yt.cta">Solicitar Orçamento</span>
                 </a>
             </div>
         </div>
@@ -333,20 +341,20 @@
         <div class="depo-light-leak depo-light-leak-2"></div>
         <div class="container">
             <div class="section-head">
-                <span class="tag">DEPOIMENTOS</span>
-                <h2 class="section-title">O Que Dizem Meus Clientes</h2>
+                <span class="tag" data-i18n="index.depo.tag">DEPOIMENTOS</span>
+                <h2 class="section-title" data-i18n="index.depo.title">O Que Dizem Meus Clientes</h2>
                 <div class="depo-trust">
                     <div class="depo-stars">★★★★★</div>
-                    <span class="depo-rating">Avaliação 5.0</span>
+                    <span class="depo-rating" data-i18n="index.depo.rating">Avaliação 5.0</span>
                     <span class="depo-trust-sep">·</span>
-                    <span class="depo-trust-count">500+ Projetos Entregues</span>
+                    <span class="depo-trust-count" data-i18n="index.depo.count">500+ Projetos Entregues</span>
                 </div>
-                <p class="section-sub">A satisfação dos meus clientes é o meu maior cartão de visitas.</p>
+                <p class="section-sub" data-i18n="index.depo.sub">A satisfação dos meus clientes é o meu maior cartão de visitas.</p>
             </div>
             <div class="depo-layout">
                 <div class="depo-video-side">
                     <div class="depo-box">
-                        <img class="depo-poster" src="https://img.youtube.com/vi/D6wCma7aAn0/maxresdefault.jpg" alt="Depoimento em vídeo">
+                        <img class="depo-poster" src="https://img.youtube.com/vi/D6wCma7aAn0/maxresdefault.jpg" alt="Depoimento em vídeo" data-i18n-attr="alt|index.depo.videoAlt">
                         <div class="depo-play-btn">
                             <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="23" stroke="white" stroke-width="2" fill="rgba(0,0,0,0.4)"/><polygon points="19,14 36,24 19,34" fill="white"/></svg>
                         </div>
@@ -354,7 +362,7 @@
                 </div>
                 <div class="depo-carousel-side">
                     <div class="depo-box" id="depoCarousel">
-                        <img class="depo-slide active" src="Depoimentos/Depoimento-01.png" alt="Depoimento de cliente sobre edição de vídeo premium - Matteus Camilo">
+                        <img class="depo-slide active" src="Depoimentos/Depoimento-01.png" alt="Depoimento de cliente sobre edição de vídeo premium - Matteus Camilo" data-i18n-attr="alt|index.depo.alt">
                         <img class="depo-slide" src="Depoimentos/Depoimento-02.png" alt="Avaliação de cliente - Editor de vídeo profissional Matteus Camilo">
                         <img class="depo-slide" src="Depoimentos/Depoimento-03.png" alt="Feedback de cliente satisfeito com edição cinematográfica">
                         <img class="depo-slide" src="Depoimentos/Depoimento-04.png" alt="Depoimento de cliente sobre projeto de edição de vídeo para YouTube">
@@ -371,7 +379,7 @@
             <div class="section-cta reveal">
                 <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="btn-wa" target="_blank" rel="noopener noreferrer">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                    Quero Resultados Assim
+                    <span data-i18n="index.depo.cta">Quero Resultados Assim</span>
                 </a>
             </div>
         </div>
@@ -381,15 +389,15 @@
     <section class="servicos section-divider" id="servicos">
         <div class="container">
             <div class="section-head">
-                <span class="tag">SERVIÇOS</span>
-                <h2 class="section-title">Serviços de Edição de Vídeo Premium</h2>
-                <p class="section-sub">Soluções completas para marcas que querem se destacar.</p>
+                <span class="tag" data-i18n="index.serv.tag">SERVIÇOS</span>
+                <h2 class="section-title" data-i18n="index.serv.title">Serviços de Edição de Vídeo Premium</h2>
+                <p class="section-sub" data-i18n="index.serv.sub">Soluções completas para marcas que querem se destacar.</p>
             </div>
             <div class="services-grid">
-                <div class="service-card"><div class="service-num">01</div><h3>Edição para YouTube</h3><p>Edição profissional de vídeos para canais que querem crescer com <em>qualidade cinematográfica</em> e <strong>retenção máxima</strong>.</p><div class="service-tags"><span>4K</span><span>Color Grading</span><span>Motion</span></div></div>
-                <div class="service-card"><div class="service-num">02</div><h3>Reels & Conteúdo Vertical</h3><p>Reels, TikToks e Shorts com edição dinâmica, trends e efeitos que geram <em>viralização</em> e <strong>engajamento</strong>.</p><div class="service-tags"><span>Vertical</span><span>Trending</span><span>Viral</span></div></div>
-                <div class="service-card"><div class="service-num">03</div><h3>Comerciais & Vídeo Clipes</h3><p>Comerciais de TV, vídeo clipes musicais e peças publicitárias com <em>produção cinematográfica</em>.</p><div class="service-tags"><span>Cinema</span><span>TV</span><span>Música</span></div></div>
-                <div class="service-card"><div class="service-num">04</div><h3>Eventos & Cobertura</h3><p>Cobertura completa de eventos, casamentos, shows e lançamentos com <strong>multi-câmera</strong> e <em>som profissional</em>.</p><div class="service-tags"><span>Multi-cam</span><span>Som Pro</span><span>4K HDR</span></div></div>
+                <div class="service-card"><div class="service-num">01</div><h3 data-i18n="index.serv1.title">Edição para YouTube</h3><p data-i18n="index.serv1.desc">Edição profissional de vídeos para canais que querem crescer com <em>qualidade cinematográfica</em> e <strong>retenção máxima</strong>.</p><div class="service-tags"><span>4K</span><span>Color Grading</span><span>Motion</span></div></div>
+                <div class="service-card"><div class="service-num">02</div><h3 data-i18n="index.serv2.title">Reels & Conteúdo Vertical</h3><p data-i18n="index.serv2.desc">Reels, TikToks e Shorts com edição dinâmica, trends e efeitos que geram <em>viralização</em> e <strong>engajamento</strong>.</p><div class="service-tags"><span>Vertical</span><span>Trending</span><span>Viral</span></div></div>
+                <div class="service-card"><div class="service-num">03</div><h3 data-i18n="index.serv3.title">Comerciais & Vídeo Clipes</h3><p data-i18n="index.serv3.desc">Comerciais de TV, vídeo clipes musicais e peças publicitárias com <em>produção cinematográfica</em>.</p><div class="service-tags"><span>Cinema</span><span>TV</span><span>Música</span></div></div>
+                <div class="service-card"><div class="service-num">04</div><h3 data-i18n="index.serv4.title">Eventos & Cobertura</h3><p data-i18n="index.serv4.desc">Cobertura completa de eventos, casamentos, shows e lançamentos com <strong>multi-câmera</strong> e <em>som profissional</em>.</p><div class="service-tags"><span>Multi-cam</span><span>Som Pro</span><span>4K HDR</span></div></div>
             </div>
         </div>
     </section>
@@ -402,12 +410,12 @@
         </div>
         <div class="container">
             <div class="cta-footer-inner">
-                <span class="tag">PRONTO PARA ELEVAR SEU CONTEÚDO?</span>
-                <h2 class="cta-title">Seu Próximo Projeto<br><span class="accent">Começa Aqui</span></h2>
-                <p class="cta-desc">Entre em contato agora e receba um orçamento personalizado. Trabalho com clientes no <em>Brasil</em> e na <em>Europa</em>.</p>
+                <span class="tag" data-i18n="index.cta.tag">PRONTO PARA ELEVAR SEU CONTEÚDO?</span>
+                <h2 class="cta-title"><span data-i18n="index.cta.title1">Seu Próximo Projeto</span><br><span class="accent" data-i18n="index.cta.title2">Começa Aqui</span></h2>
+                <p class="cta-desc" data-i18n="index.cta.desc">Entre em contato agora e receba um orçamento personalizado. Trabalho com clientes no <em>Brasil</em> e na <em>Europa</em>.</p>
                 <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="btn-wa btn-lg" target="_blank" rel="noopener noreferrer">
                     <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                    Chamar no WhatsApp
+                    <span data-i18n="index.cta.btn">Chamar no WhatsApp</span>
                 </a>
             </div>
         </div>
@@ -419,7 +427,7 @@
             <div class="footer-grid">
                 <div class="footer-col footer-brand-col">
                     <div class="footer-brand"><span class="logo-mc logo-mc-glow">MC</span><span class="logo-sep"></span><span class="logo-text">AUDIOVISUAL</span></div>
-                    <p class="footer-desc">Editor de vídeo premium com <strong>13 anos de experiência</strong>. Transformo sua visão em experiências visuais de alto impacto.</p>
+                    <p class="footer-desc" data-i18n="index.footer.desc">Editor de vídeo premium com <strong>13 anos de experiência</strong>. Transformo sua visão em experiências visuais de alto impacto.</p>
                     <div class="footer-social">
                         <a href="https://www.instagram.com/matteuscamiloaudiovisual/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -430,22 +438,22 @@
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h3 class="footer-col-title">Navegação</h3>
-                    <a href="#portfolio">Portfólio</a>
-                    <a href="#depoimentos">Depoimentos</a>
-                    <a href="#servicos">Serviços</a>
+                    <h3 class="footer-col-title" data-i18n="index.footer.nav">Navegação</h3>
+                    <a href="#portfolio" data-i18n="nav.portfolio">Portfólio</a>
+                    <a href="#depoimentos" data-i18n="nav.depoimentos">Depoimentos</a>
+                    <a href="#servicos" data-i18n="nav.servicos">Serviços</a>
                 </div>
                 <div class="footer-col">
-                    <h3 class="footer-col-title">Contato</h3>
+                    <h3 class="footer-col-title" data-i18n="index.footer.contato">Contato</h3>
                     <a href="https://api.whatsapp.com/send/?phone=5521964560620" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><use href="#ic-whatsapp"/></svg> (21) 96456-0620</a>
                     <a href="https://www.instagram.com/matteuscamiloaudiovisual/" target="_blank" rel="noopener noreferrer"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:middle;margin-right:6px"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg> @matteuscamiloaudiovisual</a>
                     <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="footer-wa-btn" target="_blank" rel="noopener noreferrer">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><use href="#ic-whatsapp"/></svg>
-                        Chamar no WhatsApp
+                        <span data-i18n="index.footer.chamar">Chamar no WhatsApp</span>
                     </a>
                 </div>
                 <div class="footer-col">
-                    <h3 class="footer-col-title">Atendimento</h3>
+                    <h3 class="footer-col-title" data-i18n="index.footer.atendimento">Atendimento</h3>
                     <div class="footer-flags">
                         <div class="footer-flags-row">
                             <span class="flag flag-tooltip" data-tip="Brasil"><img src="https://flagcdn.com/w40/br.png" alt="Brasil" width="24" height="16" loading="lazy"></span>
@@ -461,21 +469,21 @@
                 </div>
             </div>
             <div class="footer-bottom">
-                <p>&copy; 2026 Matteus Camilo - Audiovisual. Todos os direitos reservados.</p>
+                <p data-i18n="index.footer.rights">&copy; 2026 Matteus Camilo - Audiovisual. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
 
     <!-- Back to Top -->
-    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo" data-i18n-attr="aria-label|a11y.backToTop">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
     </button>
 
     <!-- WhatsApp Float -->
     <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="wa-float" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
         <svg width="28" height="28" viewBox="0 0 24 24" fill="white"><use href="#ic-whatsapp"/></svg>
-        <span class="wa-online"><span class="wa-online-dot"></span> Online agora</span>
-        <span class="wa-tooltip">Fale Comigo!</span>
+        <span class="wa-online"><span class="wa-online-dot"></span> <span data-i18n="common.waOnline">Online agora</span></span>
+        <span class="wa-tooltip" data-i18n="common.waTooltip">Fale Comigo!</span>
     </a>
 
     <!-- Sticky CTA Mobile -->
@@ -483,10 +491,10 @@
     <!-- Cookie Consent LGPD -->
     <div class="cookie-banner" id="cookieBanner">
         <div class="cookie-inner">
-            <p>Este site utiliza cookies para melhorar sua experiencia. Ao continuar navegando, voce concorda com nossa politica de privacidade.</p>
+            <p data-i18n="common.cookie">Este site utiliza cookies para melhorar sua experiencia. Ao continuar navegando, voce concorda com nossa politica de privacidade.</p>
             <div class="cookie-actions">
-                <button class="cookie-btn cookie-accept" id="cookieAccept">Aceitar</button>
-                <button class="cookie-btn cookie-decline" id="cookieDecline">Recusar</button>
+                <button class="cookie-btn cookie-accept" id="cookieAccept" data-i18n="common.cookieAccept">Aceitar</button>
+                <button class="cookie-btn cookie-decline" id="cookieDecline" data-i18n="common.cookieDecline">Recusar</button>
             </div>
         </div>
     </div>
@@ -494,7 +502,7 @@
     <div class="sticky-cta" id="stickyCta">
         <a href="https://api.whatsapp.com/send/?phone=5521964560620&text=Ol%C3%A1.+Vim+atrav%C3%A9s+do+seu+site%2C+gostaria+de+saber+mais+sobre+os+servi%C3%A7os.&type=phone_number&app_absent=0" class="sticky-cta-btn" target="_blank" rel="noopener noreferrer">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><use href="#ic-whatsapp"/></svg>
-            Fale Comigo
+            <span data-i18n="nav.cta">Fale Comigo</span>
         </a>
     </div>
 
@@ -502,8 +510,8 @@
     <div class="depo-modal" id="depoModal">
         <div class="depo-modal-overlay" id="depoModalOverlay"></div>
         <div class="depo-modal-content">
-            <button class="depo-modal-close" id="depoModalClose" aria-label="Fechar">&times;</button>
-            <img src="" alt="Depoimento ampliado" class="depo-modal-img" id="depoModalImg">
+            <button class="depo-modal-close" id="depoModalClose" aria-label="Fechar" data-i18n-attr="aria-label|a11y.close">&times;</button>
+            <img src="" alt="Depoimento ampliado" class="depo-modal-img" id="depoModalImg" data-i18n-attr="alt|index.depo.modalAlt">
         </div>
     </div>
 
@@ -511,7 +519,7 @@
     <div class="video-modal" id="videoModal">
         <div class="video-modal-overlay" id="videoModalOverlay"></div>
         <div class="video-modal-content">
-            <button class="video-modal-close" id="videoModalClose" aria-label="Fechar">&times;</button>
+            <button class="video-modal-close" id="videoModalClose" aria-label="Fechar" data-i18n-attr="aria-label|a11y.close">&times;</button>
             <div class="video-modal-embed" id="videoModalEmbed"></div>
             <div class="video-modal-info" id="videoModalInfo"></div>
         </div>
@@ -520,6 +528,8 @@
     <script>
     if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js?v=2').catch(()=>{})})}
     </script>
+    <script defer src="translations.js"></script>
+    <script defer src="i18n.js"></script>
     <script defer src="script.js"></script>
 </body>
 </html>

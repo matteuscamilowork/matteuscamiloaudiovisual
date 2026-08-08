@@ -85,6 +85,13 @@ img{max-width:100%;display:block}
 .mobile-link:hover{color:var(--accent)}
 .mobile-cta{display:inline-flex;align-items:center;gap:.5rem;background:var(--grad-wa);color:#fff!important;padding:1rem 2.5rem;border-radius:8px;font-weight:700;font-size:1rem;margin-top:1rem}
 
+/* LANG SWITCH */
+.lang-switch{display:inline-flex;align-items:center;gap:2px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:3px}
+.lang-btn{background:transparent;border:0;color:rgba(255,255,255,.6);font-size:.62rem;font-weight:700;letter-spacing:.5px;padding:3px 8px;border-radius:999px;cursor:pointer;transition:all .3s var(--ease);font-family:inherit}
+.lang-btn:hover{color:#fff}
+.lang-btn.active{background:var(--accent);color:#fff;box-shadow:0 0 12px rgba(242,29,100,.4)}
+.mobile-overlay-content .lang-switch{margin-top:1.2rem}
+
 /* SKIP LINK */
 .skip-link{position:absolute;top:-100%;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:.8rem 1.5rem;border-radius:0 0 8px 8px;font-size:.85rem;font-weight:700;z-index:10001;transition:top .3s}
 .skip-link:focus{top:0}
